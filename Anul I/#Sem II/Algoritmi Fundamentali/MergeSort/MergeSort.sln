@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27004.2006
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MergeSort", "MergeSort\MergeSort.csproj", "{D35C0226-BBE3-4A8A-9061-4F7D88DA1B7A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BinarySearch", "..\BinarySearch\BinarySearch\BinarySearch.csproj", "{D592EB30-6723-4566-9F2E-96BCE65D5C4B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D35C0226-BBE3-4A8A-9061-4F7D88DA1B7A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D35C0226-BBE3-4A8A-9061-4F7D88DA1B7A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D35C0226-BBE3-4A8A-9061-4F7D88DA1B7A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D35C0226-BBE3-4A8A-9061-4F7D88DA1B7A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D592EB30-6723-4566-9F2E-96BCE65D5C4B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D592EB30-6723-4566-9F2E-96BCE65D5C4B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D592EB30-6723-4566-9F2E-96BCE65D5C4B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D592EB30-6723-4566-9F2E-96BCE65D5C4B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {6C88A5B7-1A23-4F5E-8950-44A105F5451A}
+	EndGlobalSection
+EndGlobal

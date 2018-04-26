@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27004.2006
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Picaturi de apa", "Picaturi de apa\Picaturi de apa.csproj", "{142C62BB-25BF-44E3-AE7A-033668BB30AD}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{142C62BB-25BF-44E3-AE7A-033668BB30AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{142C62BB-25BF-44E3-AE7A-033668BB30AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{142C62BB-25BF-44E3-AE7A-033668BB30AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{142C62BB-25BF-44E3-AE7A-033668BB30AD}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {CC15E9FC-EC18-451A-8A7D-90799C02A4C7}
+	EndGlobalSection
+EndGlobal
