@@ -1,5 +1,0 @@
-To do list:
-1. Sa pot da scroll in jos in win form app
-2. Sa desenez un cerc cu text inauntru apoi din aia sa mearga 2 linii
-3. Va fii un arbore binar (max 2 ramuri)
-4. Sa nu desenez eu manual ci sa ii dau gen ba deseneazã.mi un arbore de 3 nivele

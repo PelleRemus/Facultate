@@ -20,12 +20,14 @@ namespace Poligon_in_poligon
         Graphics grp;
         Bitmap bmp;
         PointF[] points;
-        int n = 50;
+        int n = 50, k = 0;
         static Random rnd = new Random();
         PointF first, last;
+        Pen pen = new Pen(Color.Gray, 2);
 
         private void button1_Click(object sender, EventArgs e)
         {
+            k = 0;
             textBox1.Text = "";
             bmp = new Bitmap(pictureBox1.Width, pictureBox1.Height);
             grp = Graphics.FromImage(bmp);
@@ -56,13 +58,22 @@ namespace Poligon_in_poligon
 
         public void DrawMap(PointF[] points)
         {
-            Pen pen = new Pen(GetRandomColor(), 2);
+            k++;
+            switch (k / 7 % 11)
+            {
+                case 0: pen.Color = Color.Red; break;
+                case 1: pen.Color = Color.OrangeRed; break;
+                case 2: pen.Color = Color.Orange; break;
+                case 3: pen.Color = Color.Yellow; break;
+                case 4: pen.Color = Color.GreenYellow; break;
+                case 5: pen.Color = Color.LawnGreen; break;
+                case 6: pen.Color = Color.Green; break;
+                case 7: pen.Color = Color.MediumBlue; break;
+                case 8: pen.Color = Color.BlueViolet; break;
+                case 9: pen.Color = Color.Violet; break;
+                case 10: pen.Color = Color.MediumVioletRed; break;
+            }
             grp.DrawPolygon(pen, points);
-        }
-
-        public Color GetRandomColor()
-        {
-            return Color.FromArgb(rnd.Next(256), rnd.Next(256), rnd.Next(256));
         }
 
         public PointF[] S(PointF[] p)

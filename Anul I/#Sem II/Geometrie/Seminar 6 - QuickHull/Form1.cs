@@ -70,23 +70,19 @@ namespace QuickHull11
             if (points.Count <= 3)
             {
                 foreach(var p in points)
-                {
                     hull.Add(p);
-                }
                 return;
             }
                 
             Point pmin = points
                 .Select(p => new { point = p, x = p.X })
                 .Aggregate((p1, p2) => p1.x < p2.x ? p1 : p2).point;
-
             Point pmax = points
                 .Select(p => new { point = p, x = p.X })
                 .Aggregate((p1, p2) => p1.x > p2.x ? p1 : p2).point;
 
             hull.Add(pmin);
             hull.Add(pmax);
-
             List<Point> left = new List<Point>();
             List<Point> right = new List<Point>();
 
@@ -102,13 +98,8 @@ namespace QuickHull11
             float panta = -(pmin.Y - pmax.Y) / (pmax.X - pmin.X);
             Point pmaxLeft = left[0];
             for(int i = 1; i < left.Count; i++)
-            {
                 if (Distance(pmin, pmax, left[i]) > Distance(pmin, pmax, pmaxLeft))
-                {
                     pmaxLeft = left[i];
-                }
-            }
-
             for (int i = 0; i < left.Count; i++)
             {
                 PointF M = PunctMediatoare(left[i], pmin, pmax);
@@ -117,13 +108,8 @@ namespace QuickHull11
 
             Point pmaxRight = right[0];
             for (int i = 1; i < right.Count; i++)
-            {
                 if (Distance(pmin, pmax, right[i]) > Distance(pmin, pmax, pmaxRight))
-                {
                     pmaxRight = right[i];
-                }
-            }
-
             for (int i = 0; i < right.Count; i++)
             {
                 PointF M = PunctMediatoare(right[i], pmin, pmax);
@@ -140,10 +126,8 @@ namespace QuickHull11
         private void CreateHull(Point a, Point b, List<Point> points)
         {
             int pos = hull.IndexOf(b);
-
             if (points.Count == 0)
                 return;
-
             if (points.Count == 1)
             {
                 Point pp = points[0];
@@ -153,7 +137,6 @@ namespace QuickHull11
 
             int dist = int.MinValue;
             int point = 0;
-
             for (int i = 0; i < points.Count; i++)
             {
                 Point pp = points[i];
@@ -169,7 +152,6 @@ namespace QuickHull11
             hull.Insert(pos, p);
             List<Point> ap = new List<Point>();
             List<Point> pb = new List<Point>();
-
             for (int i = 0; i < points.Count; i++)
             {
                 Point pp = points[i];
@@ -189,37 +171,22 @@ namespace QuickHull11
 
         private void button1_Click(object sender, EventArgs e)
         {
-            //hull.Clear();
-            /*if(points.Count!=0)
-            {
-                pictureBox1.Image = new Bitmap(pictureBox1.Width, pictureBox1.Height);
-                Graphics graphics1 = Graphics.FromImage(pictureBox1.Image);
-                graphics1.Clear(Color.White);
-                Pen pen1 = new Pen(Color.Red, 2);
-                x = 0;
-                foreach (var p in points)
-                {
-                    graphics1.DrawEllipse(pen1, p.X-1, p.Y-1, 3, 3);
-                    graphics1.DrawString(" " + (x + 1), new Font("Arial", 10, FontStyle.Bold), new SolidBrush(Color.DarkBlue), new Point(p.X + 5, p.Y + 5));
-                    x++;
-                    pictureBox1.Invalidate();
-                }
-            }*/
             graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
             Pen pen = new Pen(Color.Red, 2);
             QuickHull();
             graphics.DrawPolygon(pen, hull.ToArray());
-
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            pictureBox1.Image = new Bitmap(pictureBox1.Width, pictureBox1.Height);
+            bmp = new Bitmap(pictureBox1.Width, pictureBox1.Height);
+            graphics = Graphics.FromImage(bmp);
             graphics.Clear(Color.White);
-            button1.Enabled = false;
-            button2.Enabled = false;
             points.Clear();
+            name.Clear();
+            x = 0;
             hull.Clear();
+            pictureBox1.Image = bmp;
         }
 
         public PointF PunctMediatoare(PointF A, PointF B, PointF C)

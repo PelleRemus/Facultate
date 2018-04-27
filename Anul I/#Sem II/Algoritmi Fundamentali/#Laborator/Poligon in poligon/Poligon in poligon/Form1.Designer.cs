@@ -44,11 +44,12 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(910, 156);
+            this.button1.Font = new System.Drawing.Font("Times New Roman", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.button1.Location = new System.Drawing.Point(910, 187);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(163, 85);
+            this.button1.Size = new System.Drawing.Size(222, 54);
             this.button1.TabIndex = 1;
-            this.button1.Text = "button1";
+            this.button1.Text = "Magie";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
