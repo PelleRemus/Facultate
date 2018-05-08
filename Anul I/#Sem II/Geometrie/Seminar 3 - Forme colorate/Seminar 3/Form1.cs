@@ -172,7 +172,7 @@ namespace Seminar_3
         public void FigGeometrica2(int n, float l, PointF center, float phi, Color Draw)
         {
             Pen pen = new Pen(Color.Blue);
-            float unghi = (float)(Math.PI * 2) / (float)n;
+            float unghi = (float)(Math.PI * 2) / n;
             PointF[] points = new PointF[n];
             for (int i = 0; i < n; i++)
             {

@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Galerii_de_arta.Properties
+namespace Intersec.Properties
 {
 
 

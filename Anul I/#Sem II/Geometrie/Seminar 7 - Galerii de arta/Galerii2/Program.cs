@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Galerii_de_arta
+namespace Galerii2
 {
     static class Program
     {
