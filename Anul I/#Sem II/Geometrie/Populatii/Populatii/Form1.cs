@@ -33,13 +33,13 @@ namespace Populatii
         private void button1_Click(object sender, EventArgs e)
         {
             pen = new Pen(Color.FromArgb(r.Next(255), r.Next(255), r.Next(255)), r.Next(2, 5));
-            float a = r.Next(1, 5);
+            float a = (float)r.NextDouble();
             float y0 = (float)r.NextDouble(), y1;
             int _t = 10;
-            for (int t = _t; t<1000; t+=_t)
+            for (int t = _t; t < 1000; t += _t)
             {
                 y1 = y0 + a * y0 * (1 - y0);
-                grp.DrawEllipse(pen, origin.X + t - 2, origin.Y - 300*y1 - 2, 5, 5);
+                grp.DrawEllipse(pen, origin.X + t - 2, origin.Y - 300 * y1 - 2, 5, 5);
                 grp.DrawLine(pen, new PointF(origin.X + t - 10, origin.Y - 300 * y0), new PointF(origin.X + t, origin.Y - 300 * y1));
                 y0 = y1;
             }
