@@ -10,43 +10,42 @@ namespace MergeSort
     {
         static void Main(string[] args)
         {
-
+            int[] v = { 4, 7, 3, 5, 8, 2 };
+            MergeSort(v, 0, v.Length - 1);
+            for (int i = 0; i < v.Length; i++)
+                Console.Write(v[i] + " ");
+            Console.ReadKey();
         }
 
-        static int[] Interclasare(int[] v1, int[] v2)
+        static void MergeSort(int[] v, int st, int dr)
         {
-            int k1 = 0, k2 = 0, k3 = 0;
-            int n1 = v1.Length, n2 = v2.Length;
-            int[] v3 = new int[n1 + n2];
+            if (st < dr)
+            {
+                int m = (st + dr) / 2;
+                MergeSort(v, st, m);
+                MergeSort(v, m + 1, dr);
+                Interclasare(v, st, m, dr);
+            }
+        }
 
-            while (k1 < n1 && k2 < n2)
+        static void Interclasare(int[] v, int st, int m, int dr)
+        {
+            int[] _v = new int[dr - st + 2];
+            int i = st, j = m + 1, k = 0;
+            while (i <= m && j <= dr)
             {
-                if (v1[k1] < v2[k2])
-                {
-                    v3[k3] = v1[k1];
-                    k3++;
-                    k1++;
-                }
+                if (v[i] <= v[j])
+                    _v[++k] = v[i++];
                 else
-                {
-                    v3[k3] = v2[k2];
-                    k3++;
-                    k2++;
-                }
+                    _v[++k] = v[j++];
             }
-            while (k1 < n1)
-            {
-                v3[k3] = v1[k1];
-                k3++;
-                k1++;
-            }
-            while (k2 < n2)
-            {
-                v3[k3] = v2[k2];
-                k3++;
-                k2++;
-            }
-            return v3;
+
+            while (i <= m)
+                _v[++k] = v[i++];
+            while (j <= dr)
+                _v[++k] = v[j++];
+            for (i = 1; i <= k; ++i)
+                v[st + i - 1] = _v[i];
         }
     }
 }
