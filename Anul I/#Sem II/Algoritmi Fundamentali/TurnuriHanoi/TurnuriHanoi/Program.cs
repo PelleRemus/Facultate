@@ -8,6 +8,16 @@ namespace TurnuriHanoi
 {
     class Program
     {
+        static void Main(string[] args)
+        {
+            int n = int.Parse(Console.ReadLine());
+            Hanoi(n, 'A', 'B', 'C');
+            Console.WriteLine();
+            Console.WriteLine();
+            HanoiPatruTije(n, 'A', 'B', 'C', 'D');
+            Console.ReadKey();
+        }
+
         static void Hanoi (int n, char A, char B, char C)
         {
             if (n == 1) Console.Write(A+"->"+C+"   ");
@@ -19,10 +29,24 @@ namespace TurnuriHanoi
             }
         }
 
-        static void Main(string[] args)
+        static void HanoiPatruTije(int n, char A, char B, char C, char D)
         {
-            Hanoi(5, 'A', 'B', 'C');
-            Console.ReadKey();
+            if (n == 1)
+                Console.Write(A + "->" + D + "   ");
+            else if (n == 2)
+            {
+                Console.Write(A + "->" + B + "   ");
+                Console.Write(A + "->" + D + "   ");
+                Console.Write(B + "->" + D + "   ");
+            }
+            else
+            {
+                HanoiPatruTije(n - 2, A, C, D, B);
+                Console.Write(A + "->" + C + "   ");
+                Console.Write(A + "->" + D + "   ");
+                Console.Write(C + "->" + D + "   ");
+                HanoiPatruTije(n - 2, B, A, C, D);
+            }
         }
     }
 }
