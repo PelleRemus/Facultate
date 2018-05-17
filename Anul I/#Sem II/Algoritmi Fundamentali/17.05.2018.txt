@@ -1,0 +1,1 @@
+Fiind data matricea costurilor intr un graf neorientat, sa se reprezinte grafic graful a.i. distantele dintre noduri sa fie proportional egale cu valoarea din matricea costurilor.
