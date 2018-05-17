@@ -80,7 +80,7 @@ namespace RotirePatrat
                 case 9: { color = Color.Violet; break; }
                 case 10: { color = Color.MediumVioletRed; break; }
             }
-
+            
             for (int i=0; i<4; i++)
             {
                 float _x = x + l * (float)Math.Cos(unghi * i + fi);

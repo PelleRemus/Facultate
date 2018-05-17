@@ -25,7 +25,7 @@ namespace Suma_l_c_d
                 int c1 = r.Next(3);
                 int l2 = r.Next(3);
                 int c2 = r.Next(3);
-                int t = m[l1, c2];
+                int t = m[l1, c1];
                 m[l1, c1] = m[l2, c2];
                 m[l2, c2] = t;
                 nr++;
