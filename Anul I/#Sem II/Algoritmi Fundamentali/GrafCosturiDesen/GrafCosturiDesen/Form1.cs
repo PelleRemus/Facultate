@@ -19,18 +19,24 @@ namespace GrafCosturiDesen
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            Engine.Init(pictureBox1.Width, pictureBox1.Height);
+            Engine.Init(pictureBox1);
             for (int i = 0; i < Engine.K; i++)
                 listBox1.Items.Add(Engine.par[i].View());
+            Engine.grp.Clear(Engine.backColor);
+            pictureBox1.Image = Engine.bmp;
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
+            Engine.grp.Clear(Engine.backColor);
             listBox1.Items.Clear();
-            for (int i = 0; i < 100; i++)
-                Engine.Do();
+            Engine.Do();
             for (int i = 0; i < Engine.K; i++)
+            {
                 listBox1.Items.Add(Engine.par[i].View());
+                Engine.par[i].Draw();
+            }
+            pictureBox1.Image = Engine.bmp;
         }
     }
 }
