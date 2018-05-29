@@ -27,16 +27,16 @@ namespace Voronoi
             bmp = new Bitmap(resx, resy);
             grp = Graphics.FromImage(bmp);
             grp.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
-            pictureBox1.BackColor = Color.White;
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
             bmp = new Bitmap(resx, resy);
             grp = Graphics.FromImage(bmp);
-            points.Clear();
+            /*points.Clear();
             colors.Clear();
             Init();
+            */
             Draw();
             pictureBox1.Image = bmp;
         }
@@ -50,6 +50,23 @@ namespace Voronoi
             }
         }
 
+        private void pictureBox1_MouseClick(object sender, MouseEventArgs e)
+        {
+            points.Add(new Point(e.X, e.Y));
+            colors.Add(Color.FromArgb(r.Next(256), r.Next(256), r.Next(256)));
+            grp.FillEllipse(new SolidBrush(Color.Black), e.X - 3, e.Y - 3, 7, 7);
+            pictureBox1.Image = bmp;
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            bmp = new Bitmap(resx, resy);
+            grp = Graphics.FromImage(bmp);
+            points.Clear();
+            colors.Clear();
+            pictureBox1.Image = bmp;
+        }
+
         void Draw()
         {
             for (int i = 0; i < resx; i++)
@@ -57,7 +74,7 @@ namespace Voronoi
                 {
                     int min = Dist(new Point(i, j), points[0]);
                     int poz = 0;
-                    for(int k=0; k<n; k++)
+                    for(int k=0; k<points.Count; k++)
                         if(Dist(new Point(i,j), points[k])<min)
                         {
                             min = Dist(new Point(i, j), points[k]);
@@ -65,7 +82,7 @@ namespace Voronoi
                         }
                     bmp.SetPixel(i, j, colors[poz]);
                 }
-            for (int i = 0; i < n; i++)
+            for (int i = 0; i < points.Count; i++)
                 grp.FillEllipse(new SolidBrush(Color.Black), points[i].X - 3, points[i].Y - 3, 7, 7);
         }
 
