@@ -1,0 +1,168 @@
+1. Sa se simuleze un ceas digital care sa arate ora si minutele, dupa o ora data.
+
+Windows Forms App, puneti un picturebox, un buton, un timer si un textbox.
+Dublu click pe formular, pe timer si pe buton.
+
+    public partial class Form1 : Form
+    {
+        public Form1()
+        {
+            InitializeComponent();
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            Engine.Init(pictureBox1);
+            Engine.DrawMap();
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            Engine.minute++;
+            if (Engine.minute == 60)
+            {
+                Engine.minute = 0;
+                Engine.ora++;
+            }
+            if (Engine.ora == 12)
+                Engine.ora = 0;
+            Engine.DrawMap();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            timer1.Enabled = true;
+            string s = textBox1.Text;
+            Engine.ora = int.Parse(s.Split(':')[0]);
+            Engine.minute = int.Parse(s.Split(':')[1]);
+            Engine.DrawMap();
+        }
+    }
+
+Creati o noua clasa Engine.cs:
+
+[...]
+using System.Drawing;
+using System.Windows.Forms;
+[...]
+    public static class Engine
+    {
+        public static Graphics grp;
+        public static Bitmap bmp;
+        public static int resx, resy;
+        public static PictureBox pB;
+        public static Color color = Color.Gold;
+        public static Pen silverPen = new Pen(Color.Silver, 5);
+        public static int R;
+        public static float alpha;
+        public static float fi = (float)(Math.PI * 3) / 2;
+        public static int minute = 0;
+        public static int ora = 0;
+
+        public static void Init(PictureBox P)
+        {
+            pB = P;
+            resx = P.Width;
+            resy = P.Height;
+            bmp = new Bitmap(resx, resy);
+            grp = Graphics.FromImage(bmp);
+            grp.Clear(color);
+            pB.Image = bmp;
+        }
+
+        public static void DrawMap()
+        {
+            R = (resx - 20) / 2;
+            grp.FillEllipse(new SolidBrush(Color.AliceBlue), resx / 2 - R, resy / 2 - R, 2 * R, 2 * R);
+            grp.DrawEllipse(silverPen, resx / 2 - R, resy / 2 - R, 2 * R, 2 * R);
+            alpha = (float)Math.PI * 2 / 12;
+            for( int i=0; i<12; i++)
+            {
+                float x = resx / 2 + (R - 40) * (float)Math.Cos(i * alpha + fi);
+                float y = resy / 2 + (R - 40) * (float)Math.Sin(i * alpha + fi);
+                float _x = resx / 2 + (R - 10) * (float)Math.Cos(i * alpha + fi);
+                float _y = resy / 2 + (R - 10) * (float)Math.Sin(i * alpha + fi);
+                grp.DrawLine(new Pen(Color.Gold, 5), _x, _y, x, y);
+            }
+
+            float m = (float)(Math.PI * 2) / 60;
+            float xm = resx / 2 + (R - 20) * (float)Math.Cos(m * minute + fi);
+            float ym = resy / 2 + (R - 20) * (float)Math.Sin(m * minute + fi);
+            grp.DrawLine(silverPen, resx / 2, resy / 2, xm, ym);
+
+            float gamma = (float)(Math.PI * 2) / (12 * 60);
+            float o = (float)(Math.PI * 2) / 12;
+            float xo = resx / 2 + (R - 70) * (float)Math.Cos(o * ora + fi + gamma * minute);
+            float yo = resy / 2 + (R - 70) * (float)Math.Sin(o * ora + fi + gamma * minute);
+            grp.DrawLine(silverPen, resx / 2, resy / 2, xo, yo);
+
+            grp.FillEllipse(new SolidBrush(Color.Gold), resx / 2 - 25, resy / 2 - 25, 50, 50);
+            pB.Image = bmp;
+        }
+    }
+
+
+
+2. Dintr o matrice, obtineti matricea mai putin linia i si coloana j.
+(+ Determinant, care nu merge chiar bine inca)
+
+        static Random r = new Random();
+        static int n, m;
+
+        static void Main(string[] args)
+        {
+            n = r.Next(10, 15);
+            m = n;
+            int[,] matrix = new int[n, m];
+            for (int i = 0; i < n; i++)
+                for (int j = 0; j < m; j++)
+                    matrix[i, j] = r.Next(10);
+            Afisare(matrix);
+            int k = n, l = m;
+            matrix = Scurtare(k, l, matrix);
+            Afisare(matrix);
+            //Console.WriteLine(Determinant(matrix));
+            Console.ReadKey();
+        }
+
+        static void Afisare(int[,] matrix)
+        {
+            for (int i = 0; i < matrix.GetLength(0); i++)
+            {
+                for (int j = 0; j < matrix.GetLength(1); j++)
+                    Console.Write(matrix[i, j] + " ");
+                Console.WriteLine();
+            }
+            Console.WriteLine();
+        }
+
+        static int[,] Scurtare(int k, int l, int[,] matrix)
+        {
+            int[,] aux = new int[n - 1, m - 1];
+            for (int i = 0; i < n - 1; i++)
+                for (int j = 0; j < m - 1; j++)
+                {
+                    if (i < k && j < l)
+                        aux[i, j] = matrix[i, j];
+                    if (i < k && j >= l)
+                        aux[i, j] = matrix[i, j + 1];
+                    if (i >= k && j < l)
+                        aux[i, j] = matrix[i + 1, j];
+                    if (i >= k && j >= l)
+                        aux[i, j] = matrix[i + 1, j + 1];
+                }
+            return aux;
+        }
+
+        static float Determinant(int[,] matrix)
+        {
+            float det = 0;
+            if (matrix.GetLength(0) == 2)
+                det += matrix[0, 0] * matrix[1, 1] - matrix[0, 1] * matrix[1, 0];
+            else
+            {
+                for (int i = 0; i < matrix.GetLength(0); i++)
+                    det += (float)Math.Pow(-1, i) * matrix[0, i] * Determinant(Scurtare(0, i, matrix));
+            }
+            return det;
+        }
