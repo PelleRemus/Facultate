@@ -11,7 +11,7 @@ namespace Factorial
         static void Main(string[] args)
         {
             int n = int.Parse(Console.ReadLine());
-            Print(n.ToString() + "!=", Factorial(n));
+            Print(n.ToString() + "! =", Factorial(n));
             Console.ReadKey();
         }
 
@@ -67,27 +67,20 @@ namespace Factorial
             }
             int max = a.Length, min = b.Length;
             int[] v = new int[max + min];
-            string k;
             for (int i = 0; i < min; i++)
             {
-                int[] x = new int[max + 1];
+                int[] aux = new int[i + max];
                 for (int j = 0; j < max; j++)
-                    x[j] = b[i] * a[j];
-                for (int j = 0; j < x.Length; j++)
-                    if (x[j] > 9)
-                    {
-                        x[j + 1] += x[j] / 10;
-                        x[j] = x[j] % 10;
-                    }
-                int[] c = new int[i];
-                k = Concat(c) + Concat(x);
-                int[] y = new int[k.Length];
-                for (int j = 0; j < k.Length; j++)
-                {
-                    y[j] = int.Parse(k[j].ToString());
-                }
-                v = Add(v, Inv(y));
+                    aux[i + j] = b[i] * a[j];
+                aux = Inv(aux);
+                v = Add(v, aux);
             }
+            for (int i = v.Length - 1; i > 0; i--)
+                if (v[i] > 9)
+                {
+                    v[i - 1] += v[i] / 10;
+                    v[i] %= 10;
+                }
             return v;
         }
 
@@ -100,14 +93,6 @@ namespace Factorial
                 v[v.Length - 1 - i] = t;
             }
             return v;
-        }
-
-        static string Concat(int[] x)
-        {
-            string k = "";
-            for (int i = 0; i < x.Length; i++)
-                k += x[i].ToString();
-            return k;
         }
 
         static int[] Add(int[] v1, int[] v2)
@@ -128,8 +113,8 @@ namespace Factorial
             for (int i = 0; i <= max; i++)
                 if (v[i] > 9)
                 {
+                    v[i + 1] += v[i] / 10;
                     v[i] %= 10;
-                    v[i + 1]++;
                 }
             Inv(v);
             return v;
