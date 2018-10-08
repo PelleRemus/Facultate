@@ -33,22 +33,22 @@ namespace Galerii2
             pictureBox1.Image = bmp;
         }
 
-        /*private void pictureBox1_MouseClick(object sender, MouseEventArgs e)
+        private void pictureBox1_MouseClick(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
             {
                 x++;
                 name.Add(x);
-                points.Add(new Point(e.X, e.Y));
+                points.Add(new Punct(new Point(e.X, e.Y)));
                 grp.DrawEllipse(blackPen, e.X - 2, e.Y - 2, 5, 5);
                 grp.DrawString(" " + x, new Font("Arial", 10, FontStyle.Bold), new SolidBrush(Color.DarkBlue), new Point(e.X + 5, e.Y + 5));
                 pictureBox1.Invalidate();
             }
-        }*/
+        }
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            points.Add(new Punct(new PointF(90, 450))); 
+            /*points.Add(new Punct(new PointF(90, 450))); 
             points.Add(new Punct(new PointF(75, 300)));
             points.Add(new Punct(new PointF(120, 150)));
             points.Add(new Punct(new PointF(180, 300)));
@@ -67,7 +67,7 @@ namespace Galerii2
             grp.DrawEllipse(blackPen, points[6].pozitie.X - 2, points[6].pozitie.Y - 2, 5, 5);
             grp.DrawEllipse(blackPen, points[7].pozitie.X - 2, points[7].pozitie.Y - 2, 5, 5);
             grp.DrawEllipse(blackPen, points[8].pozitie.X - 2, points[8].pozitie.Y - 2, 5, 5);
-            grp.DrawEllipse(blackPen, points[9].pozitie.X - 2, points[9].pozitie.Y - 2, 5, 5);
+            grp.DrawEllipse(blackPen, points[9].pozitie.X - 2, points[9].pozitie.Y - 2, 5, 5);*/
         }
 
         private void button1_Click(object sender, EventArgs e)

@@ -1,4 +1,0 @@
-Se da un fisier text in care fiecare linie este de forma:
-Nume Prenume DataAngajarii
-
-Sa se introduca aceste date intr o colectie cu elemente de tipul clasei Angajat definita astfel incat sa implementeze o interfata. Clasa Angajat va contine date de tip generic (?...sau lista sa fie generica). Va avea un constructor explicit si metodele add, remove si sort. Sa se afiseze intr un fisier de iesire, lista alfabetica a angajatilor, respectiv in alt fisier de iesire, lista angajatilor impreuna cu vechimea in munca, in ordinea descrescatoare a vechimii.
