@@ -1,0 +1,15 @@
+Criptografia:
+  1. Confidentiaitate
+  2. Integritatea datelor
+  3. Autentificarea - datelor
+                    - entitatilor
+  4. Non-reputiere
+
+HASH - numar ft mare (unic)
+
+Probleme:
+1. Scrieti un program C# care citeste un fisier text, cripteaza continutul cu cifrul lui Cezar ("+3") si scrie rezultatul intr-un alt fisier. Criptare, Decriptare si Cripto-analiza.
+
+2. "+n".
+
+3. Substitutie monoalfabetica.
