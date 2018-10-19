@@ -22,6 +22,11 @@ namespace Explorer
 
         private void Ctrl_Load(object sender, EventArgs e)
         {
+            this.Width = Settings.thumbW;
+            this.Height = Settings.thumbH;
+            pictureBox1.Size = new Size(Settings.thumbW, Settings.thumbH - 30);
+            label1.Size = new Size(Settings.thumbW, 30);
+            label1.Location = new Point(0, Settings.thumbH - 30);
             refresh();
         }
 

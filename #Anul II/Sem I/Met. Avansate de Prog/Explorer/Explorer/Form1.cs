@@ -20,7 +20,8 @@ namespace Explorer
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            
+            Settings.Default();
+            Engine.LoadFromFile();
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -37,8 +38,8 @@ namespace Explorer
             foreach(string f in Engine.files)
             {
                 Ctrl t = new Ctrl(f);
-                int dw = t.Width;
-                int dh = t.Height;
+                int dw = Settings.thumbW;
+                int dh = Settings.thumbH;
                 t.Location = new Point(5 + col * (dw + 2), 5 + line * (dh + 2));
                 col++;
                 if (col == 3)
@@ -49,6 +50,18 @@ namespace Explorer
                 t.Parent = panel1;
                 Engine.thumbs.Add(t);
             }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            Options MyOptions = new Options();
+            MyOptions.ShowDialog();
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            Help MyHelp = new Help();
+            MyHelp.ShowDialog();
         }
     }
 }
