@@ -1,0 +1,13 @@
+PlayFair Cipher
+"The quick brown fox jumps over the lazy dog"
+
+t  h  e  q  u
+i  c  k  b  r
+o  w  n  f  x 
+m  p  s  v  l
+a  z  y  d  g
+
+(AT)(TA)(CK) (AT) (DA)(WN)
+ TI  IT  KB   TI   ZG  NF
+
+IS = KM (facem un dreptunghi din cele doua litere, si luam celelalte 2 colturi)

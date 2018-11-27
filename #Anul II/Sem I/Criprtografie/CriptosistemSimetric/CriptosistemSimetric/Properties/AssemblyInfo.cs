@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("CezarAndRandom")]
+[assembly: AssemblyTitle("CriptosistemSimetric")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("CezarAndRandom")]
+[assembly: AssemblyProduct("CriptosistemSimetric")]
 [assembly: AssemblyCopyright("Copyright ©  2018")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("e9a2502e-0fe3-4826-96c8-b70a68dc44c4")]
+[assembly: Guid("43dbc9d8-63ea-434e-bb5f-303d106b257f")]
 
 // Version information for an assembly consists of the following four values:
 //

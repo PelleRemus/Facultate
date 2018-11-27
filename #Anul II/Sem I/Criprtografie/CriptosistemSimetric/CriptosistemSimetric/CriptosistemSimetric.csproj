@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{E9A2502E-0FE3-4826-96C8-B70A68DC44C4}</ProjectGuid>
+    <ProjectGuid>{43DBC9D8-63EA-434E-BB5F-303D106B257F}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>CezarAndRandom</RootNamespace>
-    <AssemblyName>CezarAndRandom</AssemblyName>
+    <RootNamespace>CriptosistemSimetric</RootNamespace>
+    <AssemblyName>CriptosistemSimetric</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -42,15 +42,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cezar.cs" />
+    <Compile Include="CriptosistemSimetric.cs" />
+    <Compile Include="MonoSubstitutie.cs" />
+    <Compile Include="PoliSubstitutie.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Rot13.cs" />
+    <Compile Include="RotN.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Source.txt" />
-    <Content Include="Text.txt" />
+    <Content Include="Intrare.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

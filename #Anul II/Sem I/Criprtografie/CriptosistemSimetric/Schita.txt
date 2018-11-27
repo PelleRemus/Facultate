@@ -1,0 +1,16 @@
+public abstract class CriptosistemSimetric
+{  string plainText;
+   string cipherText;
+   char[] key; (int k - numarul de permutari)
+   
+   Encript()
+   Decript()     -> abstract
+   GenerateKey()
+   
+   Substitute()
+   Transpozitie()
+}
+
+class Cezar, Rot13, RotN, SubstMono, SubstPoli : CriptosistemSimetric
+
+( ICriptAnaliza {Criptanaliza()} )
