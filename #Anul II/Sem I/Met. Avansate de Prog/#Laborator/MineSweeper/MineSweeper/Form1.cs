@@ -12,7 +12,7 @@ namespace MineSweeper
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            Engine.InitGame(pictureBox1, label2);
+            Engine.InitGame(this, pictureBox1, label2);
         }
 
         private void NewGame_Click(object sender, EventArgs e)

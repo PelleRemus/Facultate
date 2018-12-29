@@ -1,4 +1,6 @@
-﻿using System.Drawing;
+﻿using System.Collections.Generic;
+using System.Drawing;
+using System.Threading;
 
 namespace MineSweeper
 {
@@ -8,10 +10,18 @@ namespace MineSweeper
         internal static Block[,] blocks;
         internal static int n, m;
         internal static int mines, percent = 7;
+
         internal static Image defaultImage = Image.FromFile(@"../../Images/Default.jpg");
         internal static Image visitedImage = Image.FromFile(@"../../Images/Visited.jpg");
         internal static Image flaggedImage = Image.FromFile(@"../../Images/Flagged.png");
-        internal static Image mineImage = Image.FromFile(@"../../Images/Mine.jpg");
+        internal static Image[] explodingImages = new Image[]
+        {
+            Image.FromFile(@"../../Images/Mine.jpg"),
+            Image.FromFile(@"../../Images/Exploding1.jpg"),
+            Image.FromFile(@"../../Images/Exploding2.jpg"),
+            Image.FromFile(@"../../Images/Exploding3.jpg"),
+            Image.FromFile(@"../../Images/Exploding4.jpg"),
+        };
 
         internal static void InitGame()
         {
@@ -87,7 +97,9 @@ namespace MineSweeper
         internal static void Show(int i, int j)
         {
             if (matrix[i, j] == 9)
-                blocks[i, j].Image = mineImage;
+            {
+                blocks[i, j].Image = explodingImages[0];
+            }
             else
             {
                 Bitmap bmp = new Bitmap(blocks[i, j].Image);
@@ -95,6 +107,37 @@ namespace MineSweeper
                 grp.DrawString(blocks[i, j].value, blocks[i, j].Font, new SolidBrush(blocks[i, j].ForeColor), 2, 0);
                 blocks[i, j].Image = bmp;
             }
+        }
+
+        internal static void Explodes(int k, int l)
+        {
+            int x = 0;
+            while (x < n || x < m)
+            {
+                List<Block> mines = new List<Block>();
+                for (int i = 0; i < 2 * x + 1; i++)
+                {
+                    if (k - x >= 0 && l - x + i >= 0 && l - x + i < m && matrix[k - x, l - x + i] == 9)
+                        mines.Add(blocks[k - x, l - x + i]);
+                    if (k - x + i >= 0 && k - x + i < n && l + x < m && matrix[k - x + i, l + x] == 9)
+                        mines.Add(blocks[k - x + i, l + x]);
+                    if (k + x < n && l + x - i >= 0 && l + x - i < m && matrix[k + x, l + x - i] == 9)
+                        mines.Add(blocks[k + x, l + x - i]);
+                    if (k + x - i >= 0 && k + x - i < n && l - x >= 0 && matrix[k + x - i, l - x] == 9)
+                        mines.Add(blocks[k + x - i, l - x]);
+                }
+
+                if (mines.Count != 0)
+                    for (int i = 1; i <= 4; i++)
+                    {
+                        foreach (Block mine in mines)
+                            mine.Image = explodingImages[i];
+                        Thread.Sleep(70);
+                        Engine.form.Update();
+                    }
+                x++;
+            }
+
         }
     }
 }

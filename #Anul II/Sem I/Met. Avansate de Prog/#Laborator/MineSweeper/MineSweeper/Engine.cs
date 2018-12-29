@@ -6,16 +6,17 @@ namespace MineSweeper
 {
     internal static class Engine
     {
+        internal static Form form;
         internal static PictureBox display;
         internal static Label diff;
         internal static bool[,] visited, flagged;
         internal static bool wantsNewGame;
         internal static int x = 22;
         internal static Random rnd = new Random();
-        internal static Color buttonColor = Color.FromArgb(110, 150, 210);
 
-        internal static void InitGame(PictureBox p, Label l)
+        internal static void InitGame(Form f, PictureBox p, Label l)
         {
+            form = f;
             display = p;
             diff = l;
             wantsNewGame = false;
@@ -35,6 +36,34 @@ namespace MineSweeper
             }
         }
 
+        internal static void Block_MouseHover(object sender, EventArgs e)
+        {
+            int i = (sender as Block).line;
+            int j = (sender as Block).col;
+
+            if (!visited[i, j])
+            {
+                Bitmap bmp = new Bitmap(Resources.blocks[i, j].Image);
+                Graphics grp = Graphics.FromImage(bmp);
+                grp.FillRectangle(new SolidBrush(Color.FromArgb(70, Color.White)), 0, 0, x, x);
+                Resources.blocks[i, j].Image = bmp;
+            }
+        }
+
+        internal static void Block_MouseLeave(object sender, EventArgs e)
+        {
+            int i = (sender as Block).line;
+            int j = (sender as Block).col;
+
+            if (!visited[i, j])
+            {
+                if (flagged[i, j])
+                    Resources.blocks[i, j].Image = Resources.flaggedImage;
+                else
+                    Resources.blocks[i, j].Image = Resources.defaultImage;
+            }
+        }
+
         internal static void Block_MouseClick(object sender, MouseEventArgs e)
         {
             int i = (sender as Block).line;
@@ -45,7 +74,7 @@ namespace MineSweeper
                 if (!flagged[i, j])
                 {
                     if (Resources.matrix[i, j] == 9)
-                        GameOver();
+                        GameOver(i, j);
                     else
                         Parcurgere(i, j);
                 }
@@ -87,28 +116,24 @@ namespace MineSweeper
             }
         }
 
-        static void GameOver()
+        static void GameOver(int k, int l)
         {
             for (int i = 0; i < Resources.n; i++)
                 for (int j = 0; j < Resources.m; j++)
                     Resources.Show(i, j);
             display.Enabled = false;
-            MessageBox.Show("You Lose!");
+            Resources.Explodes(k, l);
         }
 
         static void Check()
         {
             bool ok = true;
-            for (int k = 0; k < Resources.n; k++)
-                for (int l = 0; l < Resources.m; l++)
-                {
-                    if (Resources.matrix[k, l]==9)
-                        if (!flagged[k, l])
-                            ok = false;
-                    if (flagged[k, l])
-                        if (Resources.matrix[k, l]!=9)
-                            ok = false;
-                }
+
+            for (int i = 0; i < Resources.n; i++)
+                for (int j = 0; j < Resources.m; j++)
+                    if ((Resources.matrix[i, j] == 9 && !flagged[i, j])
+                        || (Resources.matrix[i, j] != 9 && flagged[i, j]))
+                        ok = false;
 
             if (ok)
             {

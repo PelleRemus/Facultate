@@ -20,6 +20,8 @@ namespace MineSweeper
             SizeMode = PictureBoxSizeMode.Zoom;
             Cursor = Cursors.Hand;
             MouseClick += Engine.Block_MouseClick;
+            MouseHover += Engine.Block_MouseHover;
+            MouseLeave += Engine.Block_MouseLeave;
         }
     }
 }
