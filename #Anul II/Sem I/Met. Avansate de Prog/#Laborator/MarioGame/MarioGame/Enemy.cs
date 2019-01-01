@@ -30,9 +30,14 @@ namespace MarioGame
                         break;
                     }
             }
-
-            right = true;
+            left = true;
             force = 0;
+        }
+
+        internal void Die()
+        {
+            enemy.Parent = null;
+            enemy.Top = 14 * Engine.x;
         }
     }
 }

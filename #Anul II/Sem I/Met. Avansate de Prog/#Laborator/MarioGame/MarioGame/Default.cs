@@ -8,7 +8,7 @@
         [MyAttribute("brick")]
         brick,
 
-        [MyAttribute("questionMark")]
+        [MyAttribute("questionMark ")]
         questionMark,
 
         [MyAttribute("disabledQ")]
@@ -27,5 +27,19 @@
 
         [MyAttribute("turtle")]
         turtle
+    }
+    internal enum bonus
+    {
+        [MyAttribute("mushroom")]
+        mushroom,
+
+        [MyAttribute("flower")]
+        flower,
+
+        [MyAttribute("star")]
+        star,
+
+        [MyAttribute("oneUp")]
+        oneUp
     }
 }

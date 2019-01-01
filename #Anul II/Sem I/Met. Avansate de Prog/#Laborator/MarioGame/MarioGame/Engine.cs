@@ -7,140 +7,234 @@ namespace MarioGame
     internal static class Engine
     {
         internal static Form form;
-        internal static int x, v = 0;
-        internal static Block[,] b;
-        internal static int[,] levelOne;
-        internal static Enemy[] levelOneEnemies;
+        internal static Label label;
+        internal static int x, v = 0, coins = 0;
 
-        internal static void InitGame(Form f)
+        internal static void InitGame(Form f, Label l)
         {
             form = f;
+            label = l;
             x = form.Height / 14;
-            
-            b = new Block[212, 14];
-            levelOne = new int[212, 14];
-            levelOneEnemies = new Enemy[17];
-            SettingTheBlocks();
+            Resources.Init();
             Mario.Init();
         }
 
-        internal static MyAttribute getAtribute(blocks b)
+        #region Collisions
+        static bool BottomCollision(PictureBox pB1, PictureBox pB2)
         {
-            return (MyAttribute)Attribute.GetCustomAttribute(
-                typeof(blocks).GetField(Enum.GetName(typeof(blocks), b)),
-                typeof(MyAttribute));
-        }
-        internal static Block getBlock(blocks b, Point p)
-        {
-            MyAttribute local = getAtribute(b);
-            Block r = new Block(p, local.tag);
-            return r;
+            if (pB1.Bottom <= pB2.Top + Mario.jumpspeed)
+                return true;
+            return false;
         }
 
-        internal static MyAttribute getAtribute(enemies en)
+        static bool TopCollision(PictureBox pB1, PictureBox pB2)
         {
-            return (MyAttribute)Attribute.GetCustomAttribute(
-                typeof(enemies).GetField(Enum.GetName(typeof(enemies), en)),
-                typeof(MyAttribute));
-        }
-        internal static Enemy getEnemy(enemies en, Point p)
-        {
-            MyAttribute local = getAtribute(en);
-            Enemy r = new Enemy(p, local.tag);
-            return r;
+            if (pB1.Top >= pB2.Bottom - Mario.jumpspeed)
+                return true;
+            return false;
         }
 
-        internal static void Check()
+        static bool RightCollision(PictureBox pB1, PictureBox pB2)
+        {
+            if (pB1.Right > pB2.Left && pB1.Left < pB2.Left
+                && pB1.Bottom > pB2.Top && pB1.Top < pB2.Bottom)
+                return true;
+            return false;
+        }
+
+        static bool LeftCollision(PictureBox pB1, PictureBox pB2)
+        {
+            if (pB1.Left < pB2.Right && pB1.Right > pB2.Right
+                && pB1.Bottom > pB2.Top && pB1.Top < pB2.Bottom)
+                return true;
+            return false;
+        }
+        #endregion
+
+        #region HelperFunctions
+        static void QuestionMarkIsHit(Control c)
+        {
+            string bonusType = c.Name.Split(' ')[1];
+            if (Mario.upgrade > 0 && bonusType == "mushroom")
+                bonusType = "flower";
+
+            switch (bonusType)
+            {
+                case "mushroom":
+                    {
+                        Bonus temp = Resources.getBonus(bonus.mushroom, new Point(c.Left, c.Top - x));
+                        Resources.levelOneBonuses.Add(temp);
+                        break;
+                    }
+                case "flower":
+                    {
+                        Bonus temp = Resources.getBonus(bonus.flower, new Point(c.Left, c.Top - x));
+                        Resources.levelOneBonuses.Add(temp);
+                        break;
+                    }
+                case "star":
+                    {
+                        Bonus temp = Resources.getBonus(bonus.star, new Point(c.Left, c.Top - x));
+                        Resources.levelOneBonuses.Add(temp);
+                        break;
+                    }
+                case "oneUp":
+                    {
+                        Bonus temp = Resources.getBonus(bonus.oneUp, new Point(c.Left, c.Top - x));
+                        Resources.levelOneBonuses.Add(temp);
+                        break;
+                    }
+            }
+
+            c.Name = "disabledQ";
+            c.Visible = true;
+            c.BackColor = Color.Brown;
+
+            coins++;
+            label.Text = coins.ToString();
+        }
+
+        static void BrickIsHit(Control c)
+        {
+            if (Mario.upgrade > 0)
+            {
+                c.Parent = null;
+                c.Top = 14 * x;
+                c.Dispose();
+            }
+
+            /*Enemy deadEnemy = null;
+            foreach (Enemy en in Resources.levelOneEnemies)
+            {
+                if (c.Bounds.IntersectsWith(en.enemy.Bounds))
+                {
+                    en.enemy.Parent = null;
+                    en.enemy.Top = 14 * x;
+                    deadEnemy = en;
+                }
+            }
+            if (deadEnemy != null)
+                Resources.levelOneEnemies.Remove(deadEnemy);
+
+            foreach (Bonus bonus in Resources.levelOneBonuses)
+                if (c.Bounds.IntersectsWith(bonus.bonus.Bounds))
+                {
+                    bonus.jump = true;
+                    bonus.force = 8;
+                }
+            */
+        }
+        #endregion
+
+        internal static void MarioCollisions()
         {
             foreach(Control c in form.Controls)
             {
-                if(c is PictureBox && c.Tag == "block")
+                if (c is PictureBox && c.Tag == "block" && Math.Abs((c as PictureBox).Left - Mario.mario.Left) <= 18 * x)
                     if (Mario.mario.Bounds.IntersectsWith(c.Bounds))
                     {
-                        //
-                        // top collision
-                        //
-                        if (Mario.mario.Top <= c.Top - x + Mario.jumpspeed)
+                        if (BottomCollision(Mario.mario, c as PictureBox))
                         {
-                            Mario.mario.Top = c.Top - x;
+                            if (Mario.upgrade == 0 || Mario.crouch)
+                                Mario.mario.Top = c.Top - x;
+                            else
+                                Mario.mario.Top = c.Top - 2 * x;
                             Mario.jump = false;
                             Mario.force = 0;
                         }
-                        //
-                        // bottom collision
-                        //
-                        if (Mario.mario.Top >= c.Top + x - Mario.jumpspeed)
+                        
+                        if (TopCollision(Mario.mario, c as PictureBox))
                         {
-                            Mario.mario.Top = c.Top + x;
+                            Mario.mario.Top = c.Bottom;
                             Mario.force = 0;
-                            if(c.Name == "questionMark")
-                            {
-                                c.Name = "disabledQ";
-                                c.BackColor = Color.Brown;
-                            }
+
+                            if (c.Name.Split(' ')[0] == "questionMark")
+                                QuestionMarkIsHit(c);
+
+                            if (c.Name == "brick")
+                                BrickIsHit(c);
                         }
-                        //
-                        // right collision
-                        //
-                        if (Mario.mario.Right > c.Left
-                            && Mario.mario.Left < c.Left
-                            && Mario.mario.Bottom > c.Top
-                            && Mario.mario.Top < c.Bottom)
+                        
+                        if (RightCollision(Mario.mario, c as PictureBox))
                         {
                             Mario.right = false;
                             Mario.mario.Left = c.Left - x;
                         }
-                        //
-                        // left collision
-                        //
-                        if (Mario.mario.Left < c.Right
-                            && Mario.mario.Right > c.Right
-                            && Mario.mario.Bottom > c.Top
-                            && Mario.mario.Top < c.Bottom)
+                        
+                        if (LeftCollision(Mario.mario, c as PictureBox))
                         {
                             Mario.left = false;
                             Mario.mario.Left = c.Right;
                         }
-                        //
-                        // You win
-                        //
+                        
                         if (c.Name == "flag")
                             Mario.Win();
                 }
             }
         }
 
-        internal static void EnemyCheck()
+        internal static void MarioMovements()
         {
-            for (int i = 0; i < 17; i++)
+            if (Mario.left)
             {
-                Enemy en = levelOneEnemies[i];
-                if (en != null)
+                if (!(Mario.crouch && !Mario.jump))
+                {
+                    v -= Mario.speed;
+                    if (v < 0)
+                        v = 0;
+                    else
+                    {
+                        Mario.mario.Left -= Mario.speed;
+                        label.Left -= Mario.speed;
+                        form.HorizontalScroll.Value = v;
+                    }
+                }
+            }
+
+            if (Mario.right)
+            {
+                if (!(Mario.crouch && !Mario.jump))
+                {
+                    Mario.mario.Left += Mario.speed;
+                    label.Left += Mario.speed;
+                    v += Mario.speed;
+                    form.HorizontalScroll.Value = v;
+                }
+            }
+
+            // gravity
+            Mario.mario.Top -= Mario.force;
+            Mario.force -= 1;
+            if (Mario.force < -Mario.jumpspeed)
+                Mario.force = -Mario.jumpspeed;
+        }
+
+        internal static void EnemyCollisions()
+        {
+            Enemy deadEnemy = null;
+
+            foreach (Enemy en in Resources.levelOneEnemies)
+                if (Math.Abs(en.enemy.Left - Mario.mario.Left) <= 18 * x)
                 {
                     foreach (Control c in form.Controls)
                     {
-                        if (c is PictureBox && c.Tag == "block")
+                        if (c is PictureBox && c.Tag == "block" && Math.Abs((c as PictureBox).Left - Mario.mario.Left) <= 20 * x)
                             if (en.enemy.Bounds.IntersectsWith(c.Bounds))
                             {
-                                //
-                                // right collision
-                                //
-                                if (en.enemy.Right > c.Left
-                                    && en.enemy.Left < c.Left
-                                    && en.enemy.Bottom > c.Top
-                                    && en.enemy.Top < c.Bottom)
+                                if (BottomCollision(en.enemy, c as PictureBox))
+                                {
+                                    en.enemy.Top = c.Top - x;
+                                    en.force = 0;
+                                }
+                                
+                                if (RightCollision(en.enemy, c as PictureBox))
                                 {
                                     en.right = false;
                                     en.enemy.Left = c.Left - x;
                                     en.left = true;
                                 }
-                                //
-                                // left collision
-                                //
-                                if (en.enemy.Left < c.Right
-                                    && en.enemy.Right > c.Right
-                                    && en.enemy.Bottom > c.Top
-                                    && en.enemy.Top < c.Bottom)
+                                
+                                if (LeftCollision(en.enemy, c as PictureBox))
                                 {
                                     en.left = false;
                                     en.enemy.Left = c.Right;
@@ -148,169 +242,249 @@ namespace MarioGame
                                 }
                             }
                     }
-                    if (en.enemy.Left - Mario.mario.Left <= 17 * x)
-                    {
-                        if (en.left == true)
-                            en.enemy.Left -= 2;
-                        else
-                            en.enemy.Left += 2;
-                    }
                     if (Mario.mario.Bounds.IntersectsWith(en.enemy.Bounds))
                     {
-                        if (Mario.mario.Top <= en.enemy.Top - x + Mario.jumpspeed)
+                        if (BottomCollision(Mario.mario, en.enemy))
                         {
                             Mario.jump = true;
                             Mario.force = 8;
-                            en.enemy.Parent = null;
-                            en.enemy.Top = 14 * x;
-                            en = null;
+                            en.Die();
+                            deadEnemy = en;
                         }
                         else
-                            Mario.Lose();
+                        {
+                            if (!Mario.invincible)
+                            {
+                                if (Mario.upgrade == 0)
+                                    Mario.Lose();
+                                else
+                                    Mario.GotHit();
+                            }
+                        }
                     }
                 }
-            }
+
+            if (deadEnemy != null)
+                Resources.levelOneEnemies.Remove(deadEnemy);
         }
 
-        static void SettingTheBlocks()
+        internal static void EnemyMovements()
         {
-            //
-            // land
-            //
-            for(int i=0; i<212; i++)
-            {
-                if (i == 70 || i == 71 || i == 87 || i == 88 || i == 89 || i == 153 || i == 154)
-                    continue;
-                levelOne[i, 12] = 1;
-                levelOne[i, 13] = 1;
-            }
+            Enemy fallenEnemy = null;
 
-            //
-            // brick
-            //
-            levelOne[20, 8] = 2; levelOne[22, 8] = 2; levelOne[24, 8] = 2;
-            levelOne[77, 8] = 2; levelOne[79, 8] = 2;
-            for (int i = 80; i < 88; i++)
-                levelOne[i, 4] = 2;
-            levelOne[91, 4] = 2; levelOne[92, 4] = 2; levelOne[93, 4] = 2;
-            levelOne[100, 8] = 2;
-            levelOne[118, 8] = 2;
-            levelOne[121, 4] = 2; levelOne[122, 4] = 2; levelOne[123, 4] = 2;
-            levelOne[128, 4] = 2; levelOne[129, 8] = 2; levelOne[130, 8] = 2; levelOne[131, 4] = 2;
-            levelOne[168, 8] = 2; levelOne[169, 8] = 2; levelOne[171, 8] = 2;
-
-            //
-            // questionMark
-            //
-            levelOne[16, 8] = 3; levelOne[21, 8] = 3; levelOne[23, 8] = 3; levelOne[22, 4] = 3;
-            levelOne[78, 8] = 3;
-            levelOne[94, 4] = 3; levelOne[94, 8] = 3;
-            levelOne[101, 8] = 3;
-            levelOne[106, 8] = 3; levelOne[109, 8] = 3; levelOne[112, 8] = 3; levelOne[109, 4] = 3;
-            levelOne[129, 4] = 3; levelOne[130, 4] = 3;
-            levelOne[170, 8] = 3;
-
-            //
-            // disabledQ
-            //
-            for (int i = 0; i < 4; i++)
-            {
-                for (int j = i; j < 4; j++)
+            foreach (Enemy en in Resources.levelOneEnemies)
+                if (Math.Abs(en.enemy.Left - Mario.mario.Left) <= 18 * x)
                 {
-                    levelOne[134 + j, 11 - i] = 4;
-                    levelOne[143 - j, 11 - i] = 4;
-                    levelOne[148 + j, 11 - i] = 4;
-                    levelOne[158 - j, 11 - i] = 4;
+                    if (en.left)
+                        en.enemy.Left -= 3;
+                    else
+                        en.enemy.Left += 3;
+
+                    en.enemy.Top -= en.force;
+                    en.force -= 1;
+                    if (en.force < -Mario.jumpspeed)
+                        en.force = -Mario.jumpspeed;
+                    if (en.enemy.Top >= 14 * x)
+                    {
+                        en.enemy.Parent = null;
+                        fallenEnemy = en;
+                    }
                 }
-                levelOne[152, 11 - i] = 4;
-            }
-            for (int i = 0; i < 8; i++)
-            {
-                for (int j = i; j < 8; j++)
-                    levelOne[181 + j, 11 - i] = 4;
-                levelOne[189, 11 - i] = 4;
-            }
-            levelOne[198, 11] = 4;
 
-            //
-            // pipe
-            //
-            levelOne[28, 11] = 5; levelOne[28, 10] = 5; levelOne[29, 11] = 5; levelOne[29, 10] = 5;
-            for(int i=9; i<12; i++)
-            {
-                levelOne[38, i] = 5; levelOne[39, i] = 5;
-            }
-            for (int i = 8; i < 12; i++)
-            {
-                levelOne[46, i] = 5; levelOne[47, i] = 5;
-                levelOne[57, i] = 5; levelOne[58, i] = 5;
-            }
-            levelOne[163, 11] = 5; levelOne[163, 10] = 5; levelOne[164, 11] = 5; levelOne[164, 10] = 5;
-            levelOne[179, 11] = 5; levelOne[179, 10] = 5; levelOne[180, 11] = 5; levelOne[180, 10] = 5;
+            if (fallenEnemy != null)
+                Resources.levelOneEnemies.Remove(fallenEnemy);
+        }
 
-            //
-            // flag
-            //
-            for (int i = 2; i < 11; i++)
-                levelOne[198, i] = 6;
+        internal static void BonusCollisions()
+        {
+            Bonus collectedBonus = null;
 
-            //
-            //set them blocks
-            //
-            for (int i = 0; i < 212; i++)
-                for (int j = 0; j < 14; j++)
-                    if (levelOne[i, j] != 0)
-                        switch(levelOne[i,j])
+            foreach (Bonus bonus in Resources.levelOneBonuses)
+            {
+                foreach (Control c in form.Controls)
+                {
+                    if (c is PictureBox && c.Tag == "block" && Math.Abs((c as PictureBox).Left - Mario.mario.Left) <= 20 * x)
+                        if (bonus.bonus.Bounds.IntersectsWith(c.Bounds))
                         {
-                            case 1:
+                            if (BottomCollision(bonus.bonus, c as PictureBox))
+                            {
+                                bonus.bonus.Top = c.Top - x;
+                                if (bonus.bonus.Name == "star")
+                                    bonus.force = Mario.jumpspeed;
+                                else
+                                    bonus.force = 0;
+                            }
+
+                            if (TopCollision(bonus.bonus, c as PictureBox))
+                            {
+                                bonus.bonus.Top = c.Bottom;
+                                bonus.force = 0;
+                            }
+                            
+                            if (RightCollision(bonus.bonus, c as PictureBox))
+                            {
+                                bonus.right = false;
+                                bonus.bonus.Left = c.Left - x;
+                                bonus.left = true;
+                            }
+                            
+                            if (LeftCollision(bonus.bonus, c as PictureBox))
+                            {
+                                bonus.left = false;
+                                bonus.bonus.Left = c.Right;
+                                bonus.right = true;
+                            }
+                        }
+                }
+                if (Mario.mario.Bounds.IntersectsWith(bonus.bonus.Bounds))
+                {
+                    switch (bonus.bonus.Name)
+                    {
+                        case "mushroom":
+                            {
+                                Mario.upgrade = 1;
+                                Mario.mario.Size = new Size(x, 2 * x);
+                                Mario.mario.Top -= x;
+                                break;
+                            }
+                        case "flower":
+                            {
+                                Mario.upgrade++;
+                                if (Mario.upgrade == 1)
                                 {
-                                    b[i, j] = getBlock(blocks.land, new Point(i * x, j * x));
-                                    break;
+                                    Mario.mario.Size = new Size(x, 2 * x);
+                                    Mario.mario.Top -= x;
                                 }
-                            case 2:
+                                else
                                 {
-                                    b[i, j] = getBlock(blocks.brick, new Point(i * x, j * x));
-                                    break;
+                                    Mario.upgrade = 2;
+                                    if (Mario.invincible)
+                                        Mario.mario.BackColor = Color.FromArgb(150, Color.White);
+                                    else
+                                        Mario.mario.BackColor = Color.White;
                                 }
-                            case 3:
+                                break;
+                            }
+                        case "star":
+                            {
+                                if (!Mario.invincible)
                                 {
-                                    b[i, j] = getBlock(blocks.questionMark, new Point(i * x, j * x));
-                                    break;
+                                    Mario.invincible = true;
+                                    Mario.mario.BackColor = Color.FromArgb(150, Mario.mario.BackColor);
                                 }
-                            case 4:
-                                {
-                                    b[i, j] = getBlock(blocks.disabledQ, new Point(i * x, j * x));
-                                    break;
-                                }
-                            case 5:
-                                {
-                                    b[i, j] = getBlock(blocks.pipe, new Point(i * x, j * x));
-                                    break;
-                                }
-                            case 6:
-                                {
-                                    b[i, j] = getBlock(blocks.flag, new Point(i * x, j * x));
-                                    break;
-                                }
+                                Mario.invincibleTime = 500;
+                                break;
+                            }
+                        case "oneUp":
+                            {
+                                break;
+                            }
+                    }
+                    bonus.Disappear();
+                    collectedBonus = bonus;
+                }
+            }
+
+            if (collectedBonus != null)
+                Resources.levelOneBonuses.Remove(collectedBonus);
+        }
+
+        internal static void BonusMovements()
+        {
+            Bonus lostBonus = null;
+
+            foreach (Bonus bonus in Resources.levelOneBonuses)
+            {
+                if (Math.Abs(bonus.bonus.Left - Mario.mario.Left) <= 18 * x)
+                {
+                    if (bonus.left)
+                        bonus.bonus.Left -= 3;
+                    if (bonus.right)
+                        bonus.bonus.Left += 3;
+                }
+                else
+                {
+                    bonus.Disappear();
+                    lostBonus = bonus;
+                }
+
+                bonus.bonus.Top -= bonus.force;
+                bonus.force -= 1;
+                if (bonus.force < -Mario.jumpspeed)
+                    bonus.force = -Mario.jumpspeed;
+            }
+
+            if (lostBonus != null)
+                Resources.levelOneBonuses.Remove(lostBonus);
+        }
+
+        internal static void FirballCollisions()
+        {
+            Fireball usedFireball = null;
+
+            foreach (Fireball f in Resources.fireballs)
+            {
+                foreach (Control c in form.Controls)
+                    if (c is PictureBox && c.Tag == "block" && Math.Abs((c as PictureBox).Left - Mario.mario.Left) <= 20 * x)
+                        if (f.fire.Bounds.IntersectsWith(c.Bounds))
+                        {
+                            if (BottomCollision(f.fire, c as PictureBox))
+                            {
+                                f.fire.Top = c.Top - x / 3;
+                                f.force = 9;
+                            }
+                            else
+                            {
+                                f.Disappear();
+                                usedFireball = f;
+                            }
                         }
 
-            levelOneEnemies[0] = getEnemy(enemies.goomba, new Point(22 * x, 11 * x));
-            levelOneEnemies[1] = getEnemy(enemies.goomba, new Point(40 * x, 11 * x));
-            levelOneEnemies[2] = getEnemy(enemies.goomba, new Point(51 * x, 11 * x));
-            levelOneEnemies[3] = getEnemy(enemies.goomba, new Point(52 * x, 11 * x));
-            levelOneEnemies[4] = getEnemy(enemies.goomba, new Point(80 * x, 3 * x));
-            levelOneEnemies[5] = getEnemy(enemies.goomba, new Point(80 * x, 3 * x));
-            levelOneEnemies[6] = getEnemy(enemies.goomba, new Point(97 * x, 11 * x));
-            levelOneEnemies[7] = getEnemy(enemies.goomba, new Point(99 * x, 11 * x));
-            levelOneEnemies[8] = getEnemy(enemies.turtle, new Point(107 * x, 11 * x));
-            levelOneEnemies[9] = getEnemy(enemies.goomba, new Point(114 * x, 11 * x));
-            levelOneEnemies[10] = getEnemy(enemies.goomba, new Point(115 * x, 11 * x));
-            levelOneEnemies[11] = getEnemy(enemies.goomba, new Point(123 * x, 11 * x));
-            levelOneEnemies[12] = getEnemy(enemies.goomba, new Point(125 * x, 11 * x));
-            levelOneEnemies[13] = getEnemy(enemies.goomba, new Point(127 * x, 11 * x));
-            levelOneEnemies[14] = getEnemy(enemies.goomba, new Point(129 * x, 11 * x));
-            levelOneEnemies[15] = getEnemy(enemies.goomba, new Point(175 * x, 11 * x));
-            levelOneEnemies[16] = getEnemy(enemies.goomba, new Point(176 * x, 11 * x));
+                Enemy deadEnemy = null;
+                foreach (Enemy en in Resources.levelOneEnemies)
+                    if (Math.Abs(en.enemy.Left - Mario.mario.Left) <= 20 * x)
+                        if (f.fire.Bounds.IntersectsWith(en.enemy.Bounds))
+                        {
+                            en.Die();
+                            deadEnemy = en;
+                            f.Disappear();
+                            usedFireball = f;
+                        }
+                if (deadEnemy != null)
+                    Resources.levelOneEnemies.Remove(deadEnemy);
+            }
+
+            if (usedFireball != null)
+                Resources.fireballs.Remove(usedFireball);
+        }
+
+        internal static void FireballMovements()
+        {
+            Fireball lostFireball = null;
+
+            foreach (Fireball f in Resources.fireballs)
+            {
+                if (Math.Abs(f.fire.Left - Mario.mario.Left) <= 18 * x)
+                {
+                    if (f.currentLeft)
+                        f.fire.Left -= 12;
+                    else
+                        f.fire.Left += 12;
+                }
+                else
+                {
+                    f.Disappear();
+                    lostFireball = f;
+                }
+
+                f.fire.Top -= f.force;
+                f.force -= 1;
+                if (f.force < -Mario.jumpspeed)
+                    f.force = -Mario.jumpspeed;
+            }
+
+            if (lostFireball != null)
+                Resources.fireballs.Remove(lostFireball);
         }
     }
 }

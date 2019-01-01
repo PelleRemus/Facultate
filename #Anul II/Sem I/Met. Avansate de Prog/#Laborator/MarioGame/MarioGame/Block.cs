@@ -27,7 +27,7 @@ namespace MarioGame
                         block.BackColor = Color.OrangeRed;
                         break;
                     }
-                case "questionMark":
+                case "questionMark ":
                     {
                         block.BackColor = Color.Yellow;
                         break;

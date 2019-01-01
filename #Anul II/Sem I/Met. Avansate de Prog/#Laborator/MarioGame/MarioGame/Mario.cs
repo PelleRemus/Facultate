@@ -4,20 +4,22 @@ using System.Windows.Forms;
 
 namespace MarioGame
 {
-    public static class Mario
+    internal static class Mario
     {
-        public static bool alive;
-        public static bool left, right, jump;
-        public static int speed, jumpspeed, force;
-        public static PictureBox mario;
-        public static Timer t;
+        internal static bool alive, invincible;
+        internal static int upgrade, invincibleTime;
+        internal static bool left, right, jump, crouch;
+        internal static int speed, jumpspeed, force;
+        internal static PictureBox mario;
+        internal static Timer t;
 
-        public static void Init()
+        internal static void Init()
         {
             mario = new PictureBox();
             mario.Parent = Engine.form;
             speed = 9; jumpspeed = 18;
-            alive = true;
+            alive = true; invincible = false;
+            upgrade = 0; invincibleTime = 0;
             left = false; right = false;
 
             mario.Size = new Size(Engine.x, Engine.x);
@@ -31,52 +33,63 @@ namespace MarioGame
             t.Start();
         }
 
-        private static void t_Tick(object sender, EventArgs e)
+        static void t_Tick(object sender, EventArgs e)
         {
-            Engine.Check();
-            //
-            // go left & right
-            //
-            if (left)
-            {
-                Engine.v -= speed;
-                if (Engine.v < 0)
-                    Engine.v = 0;
-                else
-                    mario.Left -= speed;
-                Engine.form.HorizontalScroll.Value = Engine.v;
-            }
-            if (right)
-            {
-                mario.Left += speed;
-                Engine.v += speed;
-                Engine.form.HorizontalScroll.Value = Engine.v;
-            }
-
-            //
-            // gravity
-            //
-            mario.Top -= force;
-            force -= 1;
-            if (force < -jumpspeed)
-                force = -jumpspeed;
-            Engine.Check();
-
+            Engine.MarioCollisions();
+            Engine.MarioMovements();
+            Engine.MarioCollisions();
             if (mario.Top >= 13 * Engine.x)
                 Lose();
 
-            Engine.EnemyCheck();
+            if (invincibleTime == 0)
+            {
+                invincible = false;
+                if (upgrade == 2)
+                    mario.BackColor = Color.White;
+                else
+                    mario.BackColor = Color.Green;
+            }
+            else
+                invincibleTime--;
+
+            Engine.EnemyCollisions();
+            Engine.EnemyMovements();
+            Engine.EnemyCollisions();
+
+            if (Resources.levelOneBonuses.Count != 0)
+            {
+                Engine.BonusCollisions();
+                Engine.BonusMovements();
+                Engine.BonusCollisions();
+            }
+
+            if(Resources.fireballs.Count!=0)
+            {
+                Engine.FirballCollisions();
+                Engine.FireballMovements();
+                Engine.FirballCollisions();
+            }
         }
 
-        public static void Win()
+        internal static void Win()
         {
             t.Stop();
             MessageBox.Show("You Won!");
         }
-        public static void Lose()
+        internal static void Lose()
         {
             t.Stop();
             MessageBox.Show("You Lost!");
+        }
+
+        internal static void GotHit()
+        {
+            upgrade = 0;
+            mario.Size = new Size(Engine.x, Engine.x);
+            mario.Top += Engine.x;
+            mario.BackColor = Color.FromArgb(150, Color.Green);
+            invincible = true;
+            invincibleTime = 100;
         }
     }
 }
