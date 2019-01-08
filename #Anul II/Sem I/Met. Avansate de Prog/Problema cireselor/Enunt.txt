@@ -1,0 +1,8 @@
+Tehnici de programare:
+   -recursivitate      - fibonacci
+   -backtracking       - combinari            List, Coada, Stiva
+   -divide and conquer - turnurile Hanoi
+   -greedy             - prob spectacolelor
+
+   Problema:
+Se da o matrice de nxm elemente cu valori intregi si un "test" reprezentand locatia de inceput si de sfarsit din matrice. Sa se afiseze suma elementelor matricii din interiorul testului. (Se cer eventual mai multe teste)
