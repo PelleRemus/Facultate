@@ -1,0 +1,17 @@
+Problema factorizarii nr intregi.
+-problema foarte veche
+
+Criptosiste cu chei publice-MHCI-
+-cap 8.6
+
+Problema ruxacului
+
+Se dau n nr. nat. nenule si un s nr. nat. nenul
+A={a1,a2,...,an}, ai-nat.nenul 
+s-nat
+
+Se cere o multime
+B={b1,b2,...,bn}, bi-{1,0} daca apare sau nu
+a.i. suma din ai*bi = s;
+
+Scrieti un program care implementeaza algoritmul de criptare merkle-hellman.

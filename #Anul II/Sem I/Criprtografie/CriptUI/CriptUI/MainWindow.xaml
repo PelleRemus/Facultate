@@ -1,0 +1,42 @@
+﻿<Window x:Class="CriptUI.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CriptUI"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="351.935" Width="500.645">
+    <Grid Margin="13,12,15,15">
+        <Label Content="File" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0" Width="52" HorizontalContentAlignment="Center" FontSize="14"/>
+        <Label Content="Algorithms" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="127,61,0,0" Width="90" HorizontalContentAlignment="Center" FontSize="14"/>
+        <Label Content="CipherMode" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="322,61,0,0" Width="133" HorizontalContentAlignment="Center" FontSize="14" RenderTransformOrigin="-0.397,0.675"/>
+        <Label Content="Padding" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="322,157,0,0" Width="133" HorizontalContentAlignment="Center" FontSize="14" RenderTransformOrigin="-0.397,0.675"/>
+        <Label Content="Key" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,148,0,0" Width="74" HorizontalContentAlignment="Center" FontSize="14"/>
+        <Label Content="InitialVector" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,182,0,0" Width="84" HorizontalContentAlignment="Center" FontSize="14"/>
+        <TextBox Name="Path" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="250" Margin="67,11,0,0" IsReadOnly="True"/>
+        <TextBox Name="Key" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="228" Margin="89,154,0,0" IsReadOnly="True"/>
+        <TextBox Name="IV" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="228" Margin="89,188,0,0" IsReadOnly="True"/>
+        <Button Name="Browse" Content="Browse" HorizontalAlignment="Left" VerticalAlignment="Top" Width="133" Margin="322,11,0,0" Height="23" FontSize ="14" Click="Browse_Click"/>
+        <Button Name="Crypt" Content="Crypt" HorizontalAlignment="Left" VerticalAlignment="Top" Width="124" Margin="109,249,0,0" Height="23" FontSize ="14" Click="Crypt_Click"/>
+        <Button Name="Decrypt" Content="Decrypt" HorizontalAlignment="Left" VerticalAlignment="Top" Width="115" Margin="238,249,0,0" Height="23" FontSize ="14" Click="Decrypt_Click"/>
+        <ComboBox Name="Algorithms" HorizontalAlignment="Left" VerticalAlignment="Top" Width="307" Margin="10,95,0,0" HorizontalContentAlignment="Center" SelectionChanged="AlgorithmChanged">
+            <ComboBoxItem Content="AES" IsSelected="True"/>
+            <ComboBoxItem Content="DES"/>
+            <ComboBoxItem Content="RC2"/>
+        </ComboBox>
+        <ComboBox Name="CipherMode" HorizontalAlignment="Left" VerticalAlignment="Top" Width="133" Margin="322,95,0,0" HorizontalContentAlignment="Center" SelectionChanged="CipherModeChanged">
+            <ComboBoxItem Content="CBC" IsSelected="True"/>
+            <ComboBoxItem Content="ECB"/>
+            <ComboBoxItem Content="OFB"/>
+            <ComboBoxItem Content="CFB"/>
+            <ComboBoxItem Content="CTS"/>
+        </ComboBox>
+        <ComboBox Name="Padding" HorizontalAlignment="Left" VerticalAlignment="Top" Width="133" Margin="322,191,0,0" HorizontalContentAlignment="Center" SelectionChanged="PaddingChanged">
+            <ComboBoxItem Content="None" IsSelected="True"/>
+            <ComboBoxItem Content="PKCS7"/>
+            <ComboBoxItem Content="Zeros"/>
+            <ComboBoxItem Content="ANSIX923 "/>
+            <ComboBoxItem Content="ISO10126"/>
+        </ComboBox>
+    </Grid>
+</Window>
