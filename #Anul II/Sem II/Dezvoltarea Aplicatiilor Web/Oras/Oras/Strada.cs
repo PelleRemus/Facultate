@@ -2,15 +2,19 @@
 {
     public class Strada
     {
-        public int nod1, nod2;
-        public int lungime;
+        public int Nod1 { get; set; }
+
+        public int Nod2 { get; set; }
+
+        public int Lungime { get; set; }
+
         public string Nume { get; set; }
 
-        public Strada(int i, int j, int lungime, string Nume)
+        public Strada(int Nod1, int Nod2, int Lungime, string Nume)
         {
-            nod1 = i;
-            nod2 = j;
-            this.lungime = lungime;
+            this.Nod1 = Nod1;
+            this.Nod2 = Nod1;
+            this.Lungime = Lungime;
             this.Nume = Nume;
         }
     }

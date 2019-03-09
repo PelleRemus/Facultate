@@ -4,13 +4,15 @@ namespace Oras
 {
     public class Transport
     {
-        public Strada strada;
+        public Strada Strada { get; set; }
+
         public Transporturi Tip { get; set; }
+
         public List<Oras> Destinatii;
 
-        public Transport(Strada strada, Transporturi Tip, List<Oras> Destinatii)
+        public Transport(Strada Strada, Transporturi Tip, List<Oras> Destinatii)
         {
-            this.strada = strada;
+            this.Strada = Strada;
             this.Tip = Tip;
             this.Destinatii = Destinatii;
         }

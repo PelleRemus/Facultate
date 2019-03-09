@@ -5,10 +5,15 @@ namespace Oras
     public class Persoana
     {
         public string CNP { get; set; }
+
         public DateTime DataNasterii { get; set; }
+
         public int Varsta { get; set; }
+
         public string Nume { get; set; }
+
         public string Prenume { get; set; }
+
         public string Sex { get; set; }
 
         public Persoana(string cnp, DateTime an, string nume, string prenume, string sex)

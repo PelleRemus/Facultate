@@ -5,13 +5,21 @@ namespace Oras
     public class Oras
     {
         public string Nume { get; set; }
+
         public string Judet { get; set; }
+
         public string Tara { get; set; }
+
         public List<int> intersectii;
+
         public List<Strada> strazi;
+
         public List<Cladire> cladiri;
+
         public List<Persoana> locuitori;
+
         public List<ZonaDeRecreere> zoneDeRecreere;
+
         public List<Transport> transporturi;
 
         public Oras(string Nume, string Judet, string Tara, Strada[] strazi = null, Cladire[] cladiri = null, 
@@ -32,47 +40,55 @@ namespace Oras
                 for (int i = 0; i < strazi.Length; i++)
                     AdaugaStrada(strazi[i]);
             }
+
             if (cladiri != null)
             {
                 for (int i = 0; i < cladiri.Length; i++)
                     AdaugaCladire(cladiri[i]);
             }
+
             if (locuitori != null)
             {
                 for (int i = 0; i < locuitori.Length; i++)
                     AdaugaPersoana(locuitori[i]);
             }
+
             if (zoneDeRecreere != null)
+            {
                 this.zoneDeRecreere = zoneDeRecreere;
+            }
+
             if (transporturi != null)
+            {
                 this.transporturi = transporturi;
+            }
         }
 
         public void AdaugaStrada(Strada strada)
         {
-            if (strazi.FindAll(x => x.Nume == strada.Nume).Count == 0)
+            if (!strazi.Contains(strada))
             {
-                AdaugaIntersectie(strada.nod1);
-                AdaugaIntersectie(strada.nod2);
+                AdaugaIntersectie(strada.Nod1);
+                AdaugaIntersectie(strada.Nod2);
                 strazi.Add(strada);
             }
         }
 
         public void AdaugaIntersectie(int intersectie)
         {
-            if (intersectii.FindAll(x => x == intersectie).Count == 0)
+            if (!intersectii.Contains(intersectie))
                 intersectii.Add(intersectie);
         }
 
         public void AdaugaCladire(Cladire cladire)
         {
-            if (cladiri.FindAll(x => x.strada.Equals(cladire.strada) && x.Numar == cladire.Numar).Count == 0)
+            if (!cladiri.Exists(x => x.Strada.Equals(cladire.Strada) && x.Numar == cladire.Numar))
                 cladiri.Add(cladire);
         }
 
         public void AdaugaPersoana(Persoana persoana)
         {
-            if (locuitori.FindAll(x => x.CNP.Equals(persoana.CNP)).Count == 0)
+            if (!locuitori.Exists(x => x.CNP.Equals(persoana.CNP)))
                 locuitori.Add(persoana);
         }
     }
