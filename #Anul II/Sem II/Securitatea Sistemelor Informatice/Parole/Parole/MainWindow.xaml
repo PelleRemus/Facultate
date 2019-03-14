@@ -1,0 +1,46 @@
+﻿<Window x:Class="Parole.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Parole"
+        mc:Ignorable="d"
+        Closed="Window_Closed"
+        Title="Password Manager" Height="424" Width="800">
+    <Grid>
+
+        <TextBlock HorizontalAlignment="Left" Height="20" Margin="10,10,0,0" TextWrapping="Wrap" Text="Select the elements of which you want your password to consist." VerticalAlignment="Top" Width="772" RenderTransformOrigin="0.5,0.5"/>
+        <CheckBox Name="Lowercase" Content="Lowercase" HorizontalAlignment="Left" Margin="10,35,0,0" IsChecked="True"  VerticalAlignment="Top" Width="184" Cursor="Hand" IsEnabled="False"/>
+        <CheckBox Name="Numbers" Content="Numbers" HorizontalAlignment="Left" Margin="206,35,0,0" VerticalAlignment="Top" Width="184" Cursor="Hand"/>
+        <CheckBox Name="Uppercase" Content="Uppercase" HorizontalAlignment="Left" Margin="402,35,0,0" VerticalAlignment="Top" Width="184" Cursor="Hand"/>
+        <CheckBox Name="SpecialCharacters" Content="Special Characters" HorizontalAlignment="Left" Margin="598,35,0,0" VerticalAlignment="Top" Width="184" Cursor="Hand"/>
+
+        <TextBlock HorizontalAlignment="Left" Height="20" Margin="10,80,0,0" TextWrapping="Wrap" Text="Choose the length of yout password. (In characters)" VerticalAlignment="Top" Width="772" RenderTransformOrigin="-0.217,-0.533"/>
+        <CheckBox Name="Weak" Content="Weak(6-10)" HorizontalAlignment="Left" Margin="10,105,0,0" VerticalAlignment="Top" Width="247" Cursor="Hand" Click="Check_Click"/>
+        <CheckBox x:Name="Medium" Content="Medium(11-15)" HorizontalAlignment="Left" Margin="272,105,0,0" VerticalAlignment="Top" Width="248" Cursor="Hand" IsChecked="True" Click="Check_Click"/>
+        <CheckBox x:Name="Strong" Content="Strong(16-25)" HorizontalAlignment="Left" Margin="535,105,0,0" VerticalAlignment="Top" Width="247" Cursor="Hand" Click="Check_Click"/>
+
+        <Button Name="Generate" Content="Generate Random Password" HorizontalAlignment="Left" Margin="10,150,0,0" VerticalAlignment="Top" Width="387" Cursor="Hand" Click="Generate_Click"/>
+        <TextBox Name="Password" HorizontalAlignment="Left" Height="20" Margin="402,150,0,0" TextWrapping="Wrap" IsReadOnly="True" VerticalAlignment="Top" Width="380"/>
+
+        <Button Name="Crypt" Content="Crypt Password" HorizontalAlignment="Left" Margin="10,200,0,0" VerticalAlignment="Top" Width="387" RenderTransformOrigin="0.551,0.083" Click="Crypt_Click"/>
+        <TextBox Name="Crypt_Password" HorizontalAlignment="Left" Height="20" Margin="402,200,0,0" TextWrapping="Wrap" IsReadOnly="True" VerticalAlignment="Top" Width="380"/>
+
+        <TextBlock HorizontalAlignment="Left" Height="20" Margin="10,250,0,0" TextWrapping="Wrap" Text="Select the site:" VerticalAlignment="Top" Width="387" RenderTransformOrigin="0.5,0.5" TextAlignment="Center"/>
+        <ComboBox Name="Site" HorizontalAlignment="Left" Margin="402,250,0,0" VerticalAlignment="Top" Width="380" Height="20">
+            <ComboBoxItem Content="Facebook" IsSelected="True"/>
+            <ComboBoxItem Content="Tweeter"/>
+            <ComboBoxItem Content="Google"/>
+            <ComboBoxItem Content="Email"/>
+            <ComboBoxItem Content="Gmail"/>
+            <ComboBoxItem Content="Twitch"/>
+            <ComboBoxItem Content="Github"/>
+            <ComboBoxItem Content="Sololearn"/>
+            <ComboBoxItem Content="Uoradea"/>
+        </ComboBox>
+
+        <Button Name="Save" Content="Save Password" HorizontalAlignment="Left" Margin="10,300,0,0" VerticalAlignment="Top" Width="772" RenderTransformOrigin="0.551,0.083" Click="Save_Click"/>
+        <Button Name="Decrypt" Content="Decrypt Password for the Selected Site" HorizontalAlignment="Left" Margin="10,350,0,0" VerticalAlignment="Top" Width="387" Click="Decrypt_Click"/>
+        <TextBox Name="Decrypt_Password" HorizontalAlignment="Left" Height="20" Margin="402,350,0,0" TextWrapping="Wrap" IsReadOnly="True" VerticalAlignment="Top" Width="380"/>
+    </Grid>
+</Window>
