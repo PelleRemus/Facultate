@@ -8,8 +8,8 @@ namespace NumarVector
 {
     public class Gene
     {
-        static int pi = 1;
-        static int pr = 1;
+        static int pi = 4;
+        static int pr = 6;
         public static int n = pi + pr + 1;
         public int[] cifre;
 

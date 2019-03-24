@@ -9,21 +9,7 @@ namespace NumarVector
     public class Solutie
     {
         public Gene[] genes = new Gene[Engine.n];
-
-        public int[] getValues()
-        {
-            int[] r = new int[Gene.n * Engine.n];
-            int k = 0;
-            for(int i = 0; i<Engine.n; i++)
-            {
-                for(int j=0; j<Gene.n; j++)
-                {
-                    r[k] = genes[i].cifre[j];
-                    k++;
-                }
-            }
-            return r;
-        }
+        public long pondere;
 
         public Solutie()
         {
@@ -50,6 +36,31 @@ namespace NumarVector
                 genes[i] = new Gene();
         }
 
+        public int[] getValues()
+        {
+            int[] r = new int[Gene.n * Engine.n];
+            int k = 0;
+            for(int i = 0; i<Engine.n; i++)
+            {
+                for(int j=0; j<Gene.n; j++)
+                {
+                    r[k] = genes[i].cifre[j];
+                    k++;
+                }
+            }
+            return r;
+        }
+
+        public double FAdec()
+        {
+            double s = 0;
+
+            for (int i = 0; i < genes.Length; i++)
+                s += genes[i].ConvertToDouble();
+
+            return s;
+        }
+
         public void View()
         {
             for(int i=0; i<Engine.n; i++)
@@ -65,7 +76,7 @@ namespace NumarVector
             {
                 Console.Write(genes[i].ConvertToDouble() + ", ");
             }
-            Console.WriteLine();
+            Console.WriteLine(FAdec());
         }
     }
 }

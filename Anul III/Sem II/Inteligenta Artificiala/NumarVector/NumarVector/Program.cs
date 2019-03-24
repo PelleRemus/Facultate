@@ -10,12 +10,35 @@ namespace NumarVector
     {
         static void Main(string[] args)
         {
-            Solutie A = new Solutie();
+            /*Solutie A = new Solutie();
             Solutie B = new Solutie();
             A.View();
             B.View();
             Solutie sol = Engine.CrossN(A, B);
-            sol.View();
+            sol.View();*/
+
+            /*float[] ponderi = new float[] { 1.1f, 2.0f, 0.5f, 0.01f, 1.3f };
+            int[] vn = new int[ponderi.Length];
+            float s = 0;
+            for (int i = 0; i < ponderi.Length; i++)
+            {
+                vn[i] = 0;
+                s += ponderi[i];
+            }
+
+            for (int i = 0; i < 1000000; i++)
+                vn[Engine.AMC(ponderi)]++;
+
+            for (int i = 0; i < ponderi.Length; i++)
+                Console.WriteLine("{0} = {1}", vn[i]/1000000.0, ponderi[i]/s);
+            */
+
+            Engine.initPop();
+            Engine.ViewPop();
+            Console.WriteLine();
+
+            Engine.SelectPop();
+            Engine.ViewPar();
 
             Console.ReadKey();
         }

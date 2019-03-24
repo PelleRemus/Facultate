@@ -8,17 +8,19 @@ namespace NumarVector
 {
     public static class Engine
     {
-        public static int n = 5;
+        public static int n = 5, N = 100, K = 10;
+        public static List<Solutie> pop = new List<Solutie>();
+        public static List<Solutie> par = new List<Solutie>();
         public static Random rnd = new Random();
 
         public static Solutie CrossN(Solutie s1, Solutie s2)
         {
-            int N = (Gene.n * n) / 8;
+            int _n = (Gene.n * n) / 8;
             bool[] taieturi = new bool[Gene.n * n];
             for (int i = 0; i < Gene.n * n; i++)
                 taieturi[i] = false;
 
-            for (int i = 0; i < N; i++)
+            for (int i = 0; i < _n; i++)
             {
                 int index;
                 do
@@ -28,7 +30,7 @@ namespace NumarVector
                 taieturi[index] = true;
             }
 
-            int[] s = new int[N+1];
+            int[] s = new int[_n+1];
             int k = 1;
             s[0] = 0;
             for (int i = 0; i < Gene.n * n; i++)
@@ -57,6 +59,63 @@ namespace NumarVector
 
             Solutie r = new Solutie(sol);
             return r;
+        }
+
+        public static void initPop()
+        {
+            for (int i = 0; i < N; i++)
+                pop.Add(new Solutie());
+        }
+
+        public static void Ord()
+        {
+            pop.Sort(delegate (Solutie a, Solutie b)
+            {
+                return a.FAdec().CompareTo(b.FAdec());
+            });
+
+            for (int i = 0; i < N; i++)
+                pop[i].pondere = (i + 1) * (i + 1) * (i + 1);
+        }
+
+        public static void ViewPop()
+        {
+            foreach (Solutie sol in pop)
+                sol.ViewValue();
+        }
+
+        public static void ViewPar()
+        {
+            foreach (Solutie sol in par)
+                sol.ViewValue();
+        }
+
+        public static int AMC()
+        {
+            float s = 0;
+            for (int j = 0; j < N; j++)
+                s += pop[j].pondere;
+
+            float t = (float)rnd.NextDouble() * s;
+            int i = 0;
+
+            while (t > 0)
+            {
+                t -= pop[i].pondere;
+                i++;
+            }
+            return i - 1;
+        }
+
+        public static void SelectPop()
+        {
+            Ord();
+            par.Clear();
+
+            for(int i=0; i<K; i++)
+            {
+                par.Add(pop[AMC()]);
+            }
         }
     }
 }
