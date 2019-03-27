@@ -1,18 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Security.Cryptography;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Parole
 {
@@ -35,9 +26,9 @@ namespace Parole
         }
 
         Random r = new Random();
-        int N;
         TextWriter writer;
         List<string> passwords = new List<string>();
+        Aes aes;
 
         private void Check_Click(object sender, RoutedEventArgs e)
         {
@@ -56,11 +47,11 @@ namespace Parole
             Save.IsEnabled = true;
 
             if (Weak.IsChecked == true)
-                length = r.Next(6, 11);
+                length = r.Next(6, 16);
             if (Medium.IsChecked == true)
-                length = r.Next(11, 16);
-            if (Strong.IsChecked == true)
                 length = r.Next(16, 26);
+            if (Strong.IsChecked == true)
+                length = r.Next(26, 36);
 
             if (Numbers.IsChecked == true)
                 categories++;
@@ -119,14 +110,28 @@ namespace Parole
             if (Password.Text != "")
             {
                 string plainText = Password.Text;
-                string cryptedText = "";
-                N = r.Next(10, 20);
-
-                for (int i = 0; i < plainText.Length; i++)
-                    cryptedText += (char)(plainText[i] + N);
-
-                Crypt_Password.Text = cryptedText;
+                aes = Aes.Create();
+                Crypt_Password.Text = Encryption(plainText, aes.CreateEncryptor(aes.Key, aes.IV));
             }
+        }
+
+        string Encryption(string plainText, ICryptoTransform encryptor)
+        {
+            byte[] cryptedText;
+
+            using (MemoryStream msEncrypt = new MemoryStream())
+            {
+                using (CryptoStream csEncrypt = new CryptoStream(msEncrypt, encryptor, CryptoStreamMode.Write))
+                {
+                    using (StreamWriter swEncrypt = new StreamWriter(csEncrypt))
+                    {
+                        swEncrypt.Write(plainText);
+                    }
+                    cryptedText = msEncrypt.ToArray();
+                }
+            }
+
+            return ArrayToString(cryptedText);
         }
 
         private void Save_Click(object sender, RoutedEventArgs e)
@@ -143,7 +148,7 @@ namespace Parole
 
             buffer += " ";
             if (Crypt_Password.Text != "")
-                buffer+=Crypt_Password.Text + " " + N;
+                buffer+=Crypt_Password.Text + " " + ArrayToString(aes.Key) + " " + ArrayToString(aes.IV);
             else
                 buffer+=Password.Text;
 
@@ -178,21 +183,54 @@ namespace Parole
             if (index == passwords.Count)
                 return;
 
-            string cryptedText = passwords[index].Split(' ')[1];
+            byte[] cryptedText = StringToArray(passwords[index].Split(' ')[1]);
             try
             {
-                int key = int.Parse(passwords[index].Split(' ')[2]);
-                string decryptedText = "";
-
-                for (int i = 0; i < cryptedText.Length; i++)
-                    decryptedText += (char)(cryptedText[i] - key);
-
-                Decrypt_Password.Text = decryptedText;
+                byte[] key = StringToArray(passwords[index].Split(' ')[2]);
+                byte[] iv = StringToArray(passwords[index].Split(' ')[3]);
+                Decrypt_Password.Text = Decryption(cryptedText, aes.CreateDecryptor(key, iv));
             }
             catch
             {
-                Decrypt_Password.Text = cryptedText;
+                Decrypt_Password.Text = ArrayToString(cryptedText);
             }
+        }
+
+        string Decryption(byte[] cryptedText, ICryptoTransform decryptor)
+        {
+            string decryptedText = "";
+
+            if (cryptedText != null)
+            {
+                using (MemoryStream msDecrypt = new MemoryStream(cryptedText))
+                {
+                    using (CryptoStream csDecrypt = new CryptoStream(msDecrypt, decryptor, CryptoStreamMode.Read))
+                    {
+                        using (StreamReader srDecrypt = new StreamReader(csDecrypt))
+                        {
+                            decryptedText = srDecrypt.ReadToEnd();
+                        }
+                    }
+                }
+            }
+            return decryptedText;
+        }
+
+        string ArrayToString(byte[] array)
+        {
+            string s = "";
+            foreach (byte item in array)
+                s += item.ToString() + "_";
+            return s;
+        }
+
+        byte[] StringToArray(string s)
+        {
+            string[] items = s.Split('_');
+            byte[] b = new byte[items.Length - 1];
+            for (int i = 0; i < items.Length - 1; i++) 
+                b[i] = byte.Parse(items[i].ToString());
+            return b;
         }
     }
 }

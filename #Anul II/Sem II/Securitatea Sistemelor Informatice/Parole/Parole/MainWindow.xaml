@@ -16,9 +16,9 @@
         <CheckBox Name="SpecialCharacters" Content="Special Characters" HorizontalAlignment="Left" Margin="598,35,0,0" VerticalAlignment="Top" Width="184" Cursor="Hand"/>
 
         <TextBlock HorizontalAlignment="Left" Height="20" Margin="10,80,0,0" TextWrapping="Wrap" Text="Choose the length of yout password. (In characters)" VerticalAlignment="Top" Width="772" RenderTransformOrigin="-0.217,-0.533"/>
-        <CheckBox Name="Weak" Content="Weak(6-10)" HorizontalAlignment="Left" Margin="10,105,0,0" VerticalAlignment="Top" Width="247" Cursor="Hand" Click="Check_Click"/>
-        <CheckBox x:Name="Medium" Content="Medium(11-15)" HorizontalAlignment="Left" Margin="272,105,0,0" VerticalAlignment="Top" Width="248" Cursor="Hand" IsChecked="True" Click="Check_Click"/>
-        <CheckBox x:Name="Strong" Content="Strong(16-25)" HorizontalAlignment="Left" Margin="535,105,0,0" VerticalAlignment="Top" Width="247" Cursor="Hand" Click="Check_Click"/>
+        <CheckBox Name="Weak" Content="Weak(6-15)" HorizontalAlignment="Left" Margin="10,105,0,0" VerticalAlignment="Top" Width="247" Cursor="Hand" Click="Check_Click"/>
+        <CheckBox x:Name="Medium" Content="Medium(16-25)" HorizontalAlignment="Left" Margin="272,105,0,0" VerticalAlignment="Top" Width="248" Cursor="Hand" IsChecked="True" Click="Check_Click"/>
+        <CheckBox x:Name="Strong" Content="Strong(26-35)" HorizontalAlignment="Left" Margin="535,105,0,0" VerticalAlignment="Top" Width="247" Cursor="Hand" Click="Check_Click"/>
 
         <Button Name="Generate" Content="Generate Random Password" HorizontalAlignment="Left" Margin="10,150,0,0" VerticalAlignment="Top" Width="387" Cursor="Hand" Click="Generate_Click"/>
         <TextBox Name="Password" HorizontalAlignment="Left" Height="20" Margin="402,150,0,0" TextWrapping="Wrap" IsReadOnly="True" VerticalAlignment="Top" Width="380"/>
