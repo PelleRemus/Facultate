@@ -15,6 +15,7 @@ namespace Parole
         public MainWindow()
         {
             InitializeComponent();
+            aes = Aes.Create();
 
             TextReader dataLoad = new StreamReader(@"../../Password.txt");
             string buffer;
@@ -110,7 +111,6 @@ namespace Parole
             if (Password.Text != "")
             {
                 string plainText = Password.Text;
-                aes = Aes.Create();
                 Crypt_Password.Text = Encryption(plainText, aes.CreateEncryptor(aes.Key, aes.IV));
             }
         }
