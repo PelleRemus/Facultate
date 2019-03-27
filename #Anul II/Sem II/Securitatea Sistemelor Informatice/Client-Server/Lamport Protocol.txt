@@ -1,0 +1,43 @@
+A { 
+  byte[] w; //secret word
+  byte[][] words;
+  int i;
+  byte[] wi;
+  //1. A gets t from B.
+
+  byte[] H(byte[] word) {
+    return Crypt(word);
+  }
+
+  //2.transfer H^t(w) to B. Get i<t
+  string GetH(int t) {
+    words = new byte[][t];
+    words[0]=H(w);
+    for(int i=1; i<n; i++)
+      words[i]=H(words[i-1]);
+  }
+
+  string SendH(int i) {
+    return words[i-1];
+  }
+}
+
+B {
+  const int t;
+  int iA = 1;
+  byte[] wi;
+
+  //3. get i, ask for wi=H^(t-i)(w)
+  bool CheckI(int i) {
+    if(iA!=i)
+      return false;
+
+    //4. Ask for H(wi)
+    //Ask for SendH(i-1)
+    if(H(wi)!=SendH(i-1))
+      return false;
+
+    return true;
+  }
+}
+
