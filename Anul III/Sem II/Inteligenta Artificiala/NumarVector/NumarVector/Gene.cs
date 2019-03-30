@@ -8,8 +8,8 @@ namespace NumarVector
 {
     public class Gene
     {
-        static int pi = 4;
-        static int pr = 6;
+        static int pi = 2;
+        static int pr = 3;
         public static int n = pi + pr + 1;
         public int[] cifre;
 
@@ -35,11 +35,6 @@ namespace NumarVector
             return s;
         }
 
-        public void ConvertToVector(double number)
-        {
-
-        }
-
         public void initRandom()
         {
             for (int i = 0; i < n; i++)
@@ -48,7 +43,6 @@ namespace NumarVector
 
         public void Mutate()
         {
-            
             int index = Engine.rnd.Next(n);
             int value;
             do

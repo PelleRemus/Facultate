@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,6 +13,41 @@ namespace NumarVector
         public static List<Solutie> pop = new List<Solutie>();
         public static List<Solutie> par = new List<Solutie>();
         public static Random rnd = new Random();
+        public static float[,] A;
+        public static float[] T;
+
+        public static void Citire()
+        {
+            TextReader dataLoad = new StreamReader(@"../../TextFile1.txt");
+            n = int.Parse(dataLoad.ReadLine());
+            A = new float[n, n];
+            T = new float[n];
+            string buffer;
+            string[] x;
+
+            for (int i = 0; i < n; i++)
+            {
+                buffer = dataLoad.ReadLine();
+                x = buffer.Split(' ');
+                for (int j = 0; j < n; j++)
+                    A[i, j] = float.Parse(x[j]);
+            }
+
+            buffer = dataLoad.ReadLine();
+            x = buffer.Split(' ');
+            for (int i = 0; i < n; i++)
+                T[i] = float.Parse(x[i]);
+        }
+
+        public static void Afisare()
+        {
+            for (int i = 0; i < n; i++)
+            {
+                for (int j = 0; j < n; j++)
+                    Console.Write(A[i, j] + "*x" + j + "\t");
+                Console.WriteLine("=" + T[i]);
+            }
+        }
 
         public static Solutie CrossN(Solutie s1, Solutie s2)
         {
@@ -71,7 +107,7 @@ namespace NumarVector
         {
             pop.Sort(delegate (Solutie a, Solutie b)
             {
-                return a.FAdec().CompareTo(b.FAdec());
+                return b.FAdec().CompareTo(a.FAdec());
             });
 
             for (int i = 0; i < N; i++)
@@ -93,7 +129,7 @@ namespace NumarVector
         public static int AMC()
         {
             float s = 0;
-            for (int j = 0; j < N; j++)
+            for (int j = 0; j < pop.Count; j++)
                 s += pop[j].pondere;
 
             float t = (float)rnd.NextDouble() * s;
@@ -112,9 +148,35 @@ namespace NumarVector
             Ord();
             par.Clear();
 
-            for(int i=0; i<K; i++)
+            for (int i = 0; i < K; i++)
             {
                 par.Add(pop[AMC()]);
+                pop.Remove(par[i]);
+            }
+
+            par.Sort(delegate (Solutie a, Solutie b)
+            {
+                return a.FAdec().CompareTo(b.FAdec());
+            });
+        }
+
+        public static void UpdatePop()
+        {
+            pop.Clear();
+
+            for (int i = 0; i < N; i++)
+            {
+                int index1 = 0, index2 = 0;
+                Solutie t;
+                do
+                {
+                    index1 = rnd.Next(K);
+                    index2 = rnd.Next(K);
+                } while (index1 == index2);
+
+                t = CrossN(par[index1], par[index2]);
+                t.Mutate();
+                pop.Add(t);
             }
         }
     }

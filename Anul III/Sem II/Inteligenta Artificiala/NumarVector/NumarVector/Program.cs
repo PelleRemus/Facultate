@@ -33,14 +33,22 @@ namespace NumarVector
                 Console.WriteLine("{0} = {1}", vn[i]/1000000.0, ponderi[i]/s);
             */
 
+            Engine.Citire();
             Engine.initPop();
             Engine.ViewPop();
             Console.WriteLine();
+            do
+            {
+                Console.Clear();
+                for (int i = 0; i < 1000; i++)
+                {
+                    Engine.SelectPop();
+                    Engine.UpdatePop();
+                }
+                Engine.ViewPar();
+                Console.ReadKey();
 
-            Engine.SelectPop();
-            Engine.ViewPar();
-
-            Console.ReadKey();
+            } while (true);
         }
     }
 }

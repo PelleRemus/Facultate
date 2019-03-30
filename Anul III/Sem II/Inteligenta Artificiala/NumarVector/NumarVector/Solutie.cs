@@ -51,14 +51,23 @@ namespace NumarVector
             return r;
         }
 
-        public double FAdec()
+        public float FAdec()
         {
-            double s = 0;
+            float r = 0;
+            for (int j = 0; j < Engine.n; j++)
+            {
+                float aux = 0;
+                for (int i = 0; i < Engine.n; i++)
+                    aux += Engine.A[j, i] * (float)genes[i].ConvertToDouble() - Engine.T[j];
+                r += Math.Abs(aux);
+            }
+            return r;
+        }
 
-            for (int i = 0; i < genes.Length; i++)
-                s += genes[i].ConvertToDouble();
-
-            return s;
+        public void Mutate()
+        {
+            int i = Engine.rnd.Next(Engine.n);
+            genes[i].Mutate();
         }
 
         public void View()
