@@ -4,77 +4,96 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 
-class MyTcpListener
+namespace Listener
 {
-    public static void Main()
+    class MyTcpListener
     {
-        TcpListener server = null;
-        try
+        public static void Main()
         {
-            // Set the TcpListener on port 13000.
-            Int32 port = 13000;
-            IPAddress localAddr = IPAddress.Parse("127.0.0.1");
-
-            // TcpListener server = new TcpListener(port);
-            server = new TcpListener(localAddr, port);
-
-            // Start listening for client requests.
-            server.Start();
-
-            // Buffer for reading data
-            Byte[] bytes = new Byte[256];
-            String data = null;
-
-            // Enter the listening loop.
-            while (true)
+            TcpListener server = null;
+            try
             {
-                Console.Write("Waiting for a connection... ");
+                // Set the TcpListener on port 13000.
+                Int32 port = 13000;
+                IPAddress localAddr = IPAddress.Parse("127.0.0.1");
 
-                // Perform a blocking call to accept requests.
-                // You could also user server.AcceptSocket() here.
-                TcpClient client = server.AcceptTcpClient();
-                Console.WriteLine("Connected!");
+                // TcpListener server = new TcpListener(port);
+                server = new TcpListener(localAddr, port);
 
-                data = null;
+                // Start listening for client requests.
+                server.Start();
 
-                // Get a stream object for reading and writing
-                NetworkStream stream = client.GetStream();
+                // Buffer for reading data
+                Byte[] bytes = new Byte[256];
+                String data = null;
 
-                int i;
-
-                // Loop to receive all the data sent by the client.
-                while ((i = stream.Read(bytes, 0, bytes.Length)) != 0)
+                // Enter the listening loop.
+                while (true)
                 {
-                    // Translate data bytes to a ASCII string.
-                    data = System.Text.Encoding.ASCII.GetString(bytes, 0, i);
-                    Console.WriteLine("Received: {0}", data);
+                    Console.Write("Waiting for a connection... ");
 
-                    // Process the data sent by the client.
-                    data = data.ToUpper();
+                    // Perform a blocking call to accept requests.
+                    // You could also user server.AcceptSocket() here.
+                    TcpClient client = server.AcceptTcpClient();
+                    Console.WriteLine("Connected!");
+
+                    data = null;
+
+                    // Get a stream object for reading and writing
+                    NetworkStream stream = client.GetStream();
+
+                    int i;
+
+                    // Loop to receive all the data sent by the client.
+                    while ((i = stream.Read(bytes, 0, bytes.Length)) != 0)
+                    {
+                        // Translate data bytes to a ASCII string.
+                        data = System.Text.Encoding.ASCII.GetString(bytes, 0, i);
+                        Console.WriteLine("Received: {0}", data);
+
+                        // Process the data sent by the client.
+                        try
+                        {
+                            int iteration = int.Parse(data);
+                            B.LogIn(iteration);
+                        }
+                        catch
+                        {
+                            if (B.wi == null)
+                                B.Init(bytes);
+                            else
+                            {
+                                if (B.hashedWord == null)
+                                    B.hashedWord = bytes;
+                                else
+                                    B.savedHashedWord = bytes;
+                            }
+                        }
 
                     byte[] msg = System.Text.Encoding.ASCII.GetBytes(data);
 
-                    // Send back a response.
-                    stream.Write(msg, 0, msg.Length);
-                    Console.WriteLine("Sent: {0}", data);
+                        // Send back a response.
+                        stream.Write(msg, 0, msg.Length);
+                        Console.WriteLine("Sent: {0}", data);
+                    }
+
+                    // Shutdown and end connection
+                    client.Close();
                 }
-
-                // Shutdown and end connection
-                client.Close();
             }
-        }
-        catch (SocketException e)
-        {
-            Console.WriteLine("SocketException: {0}", e);
-        }
-        finally
-        {
-            // Stop listening for new clients.
-            server.Stop();
-        }
+            catch (SocketException e)
+            {
+                Console.WriteLine("SocketException: {0}", e);
+            }
+            finally
+            {
+                // Stop listening for new clients.
+                server.Stop();
+            }
 
 
-        Console.WriteLine("\nHit enter to continue...");
-        Console.Read();
+            Console.WriteLine("\nHit enter to continue...");
+            Console.Read();
+        }
     }
 }

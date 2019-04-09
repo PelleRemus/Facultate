@@ -2,7 +2,6 @@ A {
   byte[] w; //secret word
   byte[][] words;
   int i;
-  byte[] wi;
   //1. A gets t from B.
 
   byte[] H(byte[] word) {
@@ -10,15 +9,14 @@ A {
   }
 
   //2.transfer H^t(w) to B. Get i<t
-  string GetH(int t) {
-    words = new byte[][t];
-    words[0]=H(w);
-    for(int i=1; i<n; i++)
-      words[i]=H(words[i-1]);
-  }
-
-  string SendH(int i) {
-    return words[i-1];
+  byte[] GetH(int t) {
+    if(words == null)
+    { words = new byte[][t];
+      words[0]=H(w);
+      for(int i=1; i<n; i++)
+        words[i]=H(words[i-1]);
+    }
+    return words[words.length-t];
   }
 }
 
@@ -34,10 +32,9 @@ B {
 
     //4. Ask for H(wi)
     //Ask for SendH(i-1)
-    if(H(wi)!=SendH(i-1))
+    if(H(wi)!=GetH(i-1))
       return false;
 
     return true;
   }
 }
-

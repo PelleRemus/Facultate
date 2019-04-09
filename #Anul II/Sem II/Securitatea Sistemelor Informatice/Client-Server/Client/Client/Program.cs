@@ -11,7 +11,9 @@ namespace Client
     {
         static void Main(string[] args)
         {
-            Connect("127.0.0.1", "Hello server!");
+            A.Init("password");
+            Connect("127.0.0.1", A.i + " " + ArrayToString(A.GetH()));
+            Connect("127.0.0.1", A.i.ToString());
         }
 
         static void Connect(String server, String message)
@@ -66,6 +68,15 @@ namespace Client
 
             Console.WriteLine("\n Press Enter to continue...");
             Console.Read();
+        }
+
+        public static string ArrayToString(byte[] array)
+        {
+            string s = "";
+            for(int i=0; i<array.Length-1; i++)
+                s += array[i] + "_";
+            s += array[array.Length];
+            return s;
         }
     }
 }
