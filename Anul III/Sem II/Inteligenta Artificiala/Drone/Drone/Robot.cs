@@ -9,8 +9,10 @@ namespace Drone
 {
     public class Robot
     {
-        public Point startLocation, crtLocation, targetLocation;
+        public RobotTypes type;
+        public Point startLocation, targetLocation;
         public List<Point> path = new List<Point>();
+        public List<string> messages = new List<string>();
         public int[,] matrix;
 
         public Robot()
@@ -58,6 +60,48 @@ namespace Drone
                     list.Add(new Data(toDel.x, toDel.y + 1, toDel.v + 1));
                     matrix[toDel.x, toDel.y + 1] = toDel.v + 1;
                 }
+            }
+
+            int value = matrix[targetLocation.X, targetLocation.Y];
+            if (value != 0)
+            {
+                path.Add(targetLocation);
+                Point loc = new Point(targetLocation.X, targetLocation.Y);
+
+                while (value != 1)
+                {
+                    List<Point> pp = new List<Point>();
+                    if (loc.X - 1 >= 0 && matrix[loc.X - 1, loc.Y] == value - 1)
+                        pp.Add(new Point(loc.X - 1, loc.Y));
+                    if (loc.Y - 1 >= 0 && matrix[loc.X, loc.Y - 1] == value - 1)
+                        pp.Add(new Point(loc.X, loc.Y - 1));
+                    if (loc.X + 1 < Engine.n && matrix[loc.X + 1, loc.Y] == value - 1)
+                        pp.Add(new Point(loc.X + 1, loc.Y));
+                    if (loc.Y + 1 < Engine.m && matrix[loc.X, loc.Y + 1] == value - 1)
+                        pp.Add(new Point(loc.X, loc.Y + 1));
+
+                    int i = Engine.rnd.Next(pp.Count);
+                    path.Insert(0, pp[i]);
+                    loc = pp[i];
+                    value--;
+                }
+            }
+            else
+            {
+                messages.Add("Unable to go to target.");
+            }
+        }
+
+        public void Move()
+        {
+            if (path.Count > 1)
+            {
+                startLocation = path[1];
+                path.RemoveAt(0);
+            }
+            else
+            {
+                messages.Add("Got to target.");
             }
         }
 

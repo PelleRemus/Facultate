@@ -34,9 +34,14 @@ namespace Drone
 
         public static void DrawMap()
         {
+            clearGraph();
+
             for(int i=0; i<n; i++)
                 for(int j=0; j<m; j++)
                     map[i, j].Draw();
+
+            foreach (Robot r in robots)
+                map[r.startLocation.X, r.startLocation.Y].DrawRobot();
             refreshGraph();
         }
 
