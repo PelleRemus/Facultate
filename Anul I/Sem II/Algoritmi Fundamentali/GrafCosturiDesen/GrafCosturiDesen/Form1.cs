@@ -22,8 +22,6 @@ namespace GrafCosturiDesen
             Engine.Init(pictureBox1);
             for (int i = 0; i < Engine.K; i++)
                 listBox1.Items.Add(Engine.par[i].View());
-            Engine.grp.Clear(Engine.backColor);
-            pictureBox1.Image = Engine.bmp;
         }
 
         private void button1_Click(object sender, EventArgs e)
