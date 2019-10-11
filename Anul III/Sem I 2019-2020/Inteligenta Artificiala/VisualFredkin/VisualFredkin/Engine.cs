@@ -13,12 +13,13 @@ namespace VisualFredkin
         public static PictureBox display;
         public static PictureBox[,] pbMatrix;
         public static int[,] matrix, temp;
-        public static int n, length;
+        public static int n, length, t;
 
         public static void Init(PictureBox p)
         {
             //modificati valoarea lui n pentru rezultate diferite.
-            n = 21;
+            n = 51;
+            t = 9;
             length = p.Width / n;
             display = p;
 
@@ -57,11 +58,7 @@ namespace VisualFredkin
                     s += matrix[i, j - 1];
                     s += matrix[i + 1, j];
                     s += matrix[i, j + 1];
-
-                    if (s % 2 == 0)
-                        temp[i, j] = 0;
-                    else
-                        temp[i, j] = 1;
+                    temp[i, j] = s % t;
                 }
             for (int i = 0; i < n + 2; i++)
                 for (int j = 0; j < n + 2; j++)
@@ -77,10 +74,39 @@ namespace VisualFredkin
             for (int i = 1; i <= n; i++)
                 for (int j = 1; j <= n; j++)
                 {
-                    if (matrix[i, j] == 1)
-                        pbMatrix[i - 1, j - 1].BackColor = Color.Purple;
-                    else
-                        pbMatrix[i - 1, j - 1].BackColor = Color.White;
+                    switch(matrix[i, j])
+                    {
+                        case 1:
+                            pbMatrix[i - 1, j - 1].BackColor = Color.Red;
+                            break;
+                        case 2:
+                            pbMatrix[i - 1, j - 1].BackColor = Color.Blue;
+                            break;
+                        case 3:
+                            pbMatrix[i - 1, j - 1].BackColor = Color.Orange;
+                            break;
+                        case 4:
+                            pbMatrix[i - 1, j - 1].BackColor = Color.Green;
+                            break;
+                        case 5:
+                            pbMatrix[i - 1, j - 1].BackColor = Color.MediumBlue;
+                            break;
+                        case 6:
+                            pbMatrix[i - 1, j - 1].BackColor = Color.Yellow;
+                            break;
+                        case 7:
+                            pbMatrix[i - 1, j - 1].BackColor = Color.Violet;
+                            break;
+                        case 8:
+                            pbMatrix[i - 1, j - 1].BackColor = Color.OrangeRed;
+                            break;
+                        case 9:
+                            pbMatrix[i - 1, j - 1].BackColor = Color.YellowGreen;
+                            break;
+                        default:
+                            pbMatrix[i - 1, j - 1].BackColor = Color.White;
+                            break;
+                    }
                 }
         }
     }

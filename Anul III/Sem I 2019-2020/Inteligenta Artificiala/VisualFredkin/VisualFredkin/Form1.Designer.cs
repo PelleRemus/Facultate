@@ -36,6 +36,7 @@
             // 
             // pictureBox1
             // 
+            this.pictureBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pictureBox1.Location = new System.Drawing.Point(0, 0);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(440, 440);
@@ -45,7 +46,7 @@
             // NextStep
             // 
             this.NextStep.Font = new System.Drawing.Font("Comic Sans MS", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.NextStep.Location = new System.Drawing.Point(446, 168);
+            this.NextStep.Location = new System.Drawing.Point(446, 173);
             this.NextStep.Name = "NextStep";
             this.NextStep.Size = new System.Drawing.Size(107, 40);
             this.NextStep.TabIndex = 1;
@@ -56,7 +57,7 @@
             // InfiniteSteps
             // 
             this.InfiniteSteps.Font = new System.Drawing.Font("Comic Sans MS", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.InfiniteSteps.Location = new System.Drawing.Point(446, 214);
+            this.InfiniteSteps.Location = new System.Drawing.Point(446, 219);
             this.InfiniteSteps.Name = "InfiniteSteps";
             this.InfiniteSteps.Size = new System.Drawing.Size(107, 55);
             this.InfiniteSteps.TabIndex = 2;
