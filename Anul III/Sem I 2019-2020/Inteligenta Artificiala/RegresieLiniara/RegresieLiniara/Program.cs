@@ -10,6 +10,21 @@ namespace RegresieLiniara
     {
         static void Main(string[] args)
         {
+            Engine.Init();
+            while (true)
+            {
+                Run();
+                Console.WriteLine(Engine.FAdec());
+                Console.ReadKey();
+            }
+        }
+
+        public static void Run()
+        {
+            for (int i = 0; i < Engine.nrOfIterations; i++)
+            {
+                Engine.GradientDescent();
+            }
         }
     }
 }
