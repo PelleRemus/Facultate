@@ -24,7 +24,7 @@ namespace AlgoritmIacobi
                 { -3, 1, -5 }
             };
             b = new double[] { 9, -1, -8 };
-            epsilon = 0.00001;
+            epsilon = 0.0000000000001;
             alpha = new double[n, n];
             beta = new double[n];
             x.Add(new double[n]);
@@ -60,14 +60,23 @@ namespace AlgoritmIacobi
                 for (int i = 0; i < n; i++)
                 {
                     double s = 0;
-                    for (int j = 0; j < n; j++)
+                    //Iacobi
+                    /*for (int j = 0; j < n; j++)
+                        s += alpha[i, j] * x[k - 1][j];*/
+
+                    //Gauss-Seidel
+                    for (int j = 0; j < i; j++)
+                        s += alpha[i, j] * x[k][j];
+                    for (int j = i + 1; j < n; j++)
                         s += alpha[i, j] * x[k - 1][j];
-                    x[k][i] = (beta[i] - s) / a[i, i];
+
+                    x[k][i] = beta[i] - s / a[i, i];
                 }
             } while (MaxError() >= epsilon);
 
             Console.WriteLine(k);
             Afisare();
+            Console.WriteLine("Correct result: 1 0 1");
             Console.ReadKey();
         }
 
