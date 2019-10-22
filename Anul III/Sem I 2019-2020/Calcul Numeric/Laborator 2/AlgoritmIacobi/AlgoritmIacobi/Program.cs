@@ -19,29 +19,20 @@ namespace AlgoritmIacobi
             //initializare
             n = 3; k = 0;
             a = new double[,] {
-                { 10, 2, -1 },
-                { -2, -5, 1 },
-                { -3, 1, -5 }
+                { 5, 1, 1 },
+                { 1, 6, 4 },
+                { 1, 1, 10 }
             };
-            b = new double[] { 9, -1, -8 };
-            epsilon = 0.0000000000001;
+            b = new double[] { 10, 4, -7 };
+            epsilon = 0.00000000000000000000001;
             alpha = new double[n, n];
             beta = new double[n];
             x.Add(new double[n]);
 
-            //calculare alpha si beta
             for (int i = 0; i < n; i++)
             {
                 if (a[i, i] != 0)
-                {
-                    for (int j = 0; j < n; j++)
-                    {
-                        if (j == i)
-                            continue;
-                        alpha[i, j] = -a[i, j] / a[i, i];
-                    }
-                    beta[i] = b[i] / a[i, i];
-                }
+                    x[k][i] = b[i] / a[i, i];
                 else
                 {
                     Console.WriteLine("Can not divide by 0.");
@@ -50,9 +41,7 @@ namespace AlgoritmIacobi
                 }
             }
 
-            //algoritm
-            for (int i = 0; i < n; i++)
-                x[k][i] = beta[i];
+            //algoritm 
             do
             {
                 k++;
@@ -62,21 +51,22 @@ namespace AlgoritmIacobi
                     double s = 0;
                     //Iacobi
                     /*for (int j = 0; j < n; j++)
-                        s += alpha[i, j] * x[k - 1][j];*/
+                        if (j != i)
+                            s += a[i, j] * x[k - 1][j];*/
 
                     //Gauss-Seidel
                     for (int j = 0; j < i; j++)
-                        s += alpha[i, j] * x[k][j];
+                        s += a[i, j] * x[k][j];
                     for (int j = i + 1; j < n; j++)
-                        s += alpha[i, j] * x[k - 1][j];
-
-                    x[k][i] = beta[i] - s / a[i, i];
+                        s += a[i, j] * x[k - 1][j];
+                    
+                    x[k][i] = (b[i] - s) / a[i, i];
                 }
             } while (MaxError() >= epsilon);
 
             Console.WriteLine(k);
             Afisare();
-            Console.WriteLine("Correct result: 1 0 1");
+            Console.WriteLine("Correct result: 2 1 -1");
             Console.ReadKey();
         }
 
