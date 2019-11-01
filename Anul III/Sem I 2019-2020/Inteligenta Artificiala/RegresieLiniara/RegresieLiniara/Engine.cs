@@ -10,9 +10,10 @@ namespace RegresieLiniara
     public static class Engine
     {
         public static Matrix W, X, Y, C;
-        public static int nrOfIterations = 1000;
+        public static int nrOfIterations = 10;
         public static double learningRate = 0.005;
         public static Random random = new Random();
+        public static string weights = "";
 
         public static void Init()
         {
@@ -41,6 +42,7 @@ namespace RegresieLiniara
             Matrix deltaW = delta.GetTranspose() * X;
 
             W = W - deltaW.GetTranspose()/(1/learningRate);
+            
         }
 
         public static double FAdec()

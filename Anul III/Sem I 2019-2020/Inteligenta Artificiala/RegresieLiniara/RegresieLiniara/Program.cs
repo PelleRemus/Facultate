@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
 
 namespace RegresieLiniara
 {
@@ -11,12 +12,13 @@ namespace RegresieLiniara
         static void Main(string[] args)
         {
             Engine.Init();
-            while (true)
+            for(int i=0; i<1000; i++)
             {
                 Run();
                 Console.WriteLine(Engine.FAdec());
-                Console.ReadKey();
             }
+            File.WriteAllText(@"../../extData.txt", Engine.weights);
+            Console.ReadLine();
         }
 
         public static void Run()
@@ -25,6 +27,7 @@ namespace RegresieLiniara
             {
                 Engine.GradientDescent();
             }
+            Engine.weights += Engine.W[0, 0] + " " + Engine.W[1, 0] + "\n";
         }
     }
 }
