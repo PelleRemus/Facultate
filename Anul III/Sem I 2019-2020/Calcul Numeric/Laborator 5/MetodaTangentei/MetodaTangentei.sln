@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.572
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MetodaTangentei", "MetodaTangentei\MetodaTangentei.csproj", "{2D820A0C-EB76-4352-AC06-68F293D16028}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2D820A0C-EB76-4352-AC06-68F293D16028}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2D820A0C-EB76-4352-AC06-68F293D16028}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2D820A0C-EB76-4352-AC06-68F293D16028}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2D820A0C-EB76-4352-AC06-68F293D16028}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {551532D5-4559-491C-90E9-25390B54405B}
+	EndGlobalSection
+EndGlobal
