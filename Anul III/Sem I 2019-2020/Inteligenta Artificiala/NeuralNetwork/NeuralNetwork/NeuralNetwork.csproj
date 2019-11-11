@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Engine.cs" />
+    <Compile Include="Extensions.cs" />
     <Compile Include="Layer.cs" />
     <Compile Include="Matrix.cs" />
     <Compile Include="MatrixHelper.cs" />

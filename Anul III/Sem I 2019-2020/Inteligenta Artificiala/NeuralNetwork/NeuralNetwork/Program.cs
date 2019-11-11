@@ -4,6 +4,8 @@
     {
         static void Main(string[] args)
         {
+            Engine.Initialization()
+            Engine.BatchGradientDescent();
         }
     }
 }
