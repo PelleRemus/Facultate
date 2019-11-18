@@ -16,16 +16,16 @@ namespace MetodaMatriceiInverse
         {
             n = 3;
             a = new double[,] {
-                { 1, 1, 1 },
-                { 1, 2, 3 },
-                { 1, 3, 6 }
+                { 2, 2, 3 },
+                { 1, -1, 1 },
+                { -1, 2, 1 }
             };
             b = new double[] { 9, -1, -8 };
             inversa = new double[n, n];
             x = new double[n];
 
-            MetMatriceiAdjuncte();
-            
+            //MetMatriceiAdjuncte();
+            MetEliminariiGauss();
 
             for (int i = 0; i < n; i++)
                 for (int j = 0; j < n; j++)
@@ -83,14 +83,42 @@ namespace MetodaMatriceiInverse
             for (int i = 0; i < n; i++)
                 inversa[i, i] = 1;
 
-            for (int k = 0; k < n; k++)
+            /*for (int k = 0; k < n; k++)
+            {
+                for (int i = 0; i < n; i++)
+                {
+                    inversa[i, k] /= a[k, k];
+                    a[i, k] /= a[k, k];
+                }
+
                 for (int i = 0; i < n; i++)
                     if (i != k)
                         for (int j = 0; j < n; j++)
                         {
-                            a[i, j] -= a[i, k] * a[k, j];
                             inversa[i, j] -= a[i, k] * inversa[k, j];
+                            a[i, j] -= a[i, k] * a[k, j];
                         }
+            }
+            */
+            for (int k = 0; k < n; k++)
+                for (int i = 0; i < n; i++)
+                {
+                    if (i == k)
+                        continue;
+                    double c = -a[i, k] / a[k, k];
+                    for (int j = 0; j < n; j++)
+                    {
+                        a[i, j] += a[k, j] * c;
+                        inversa[i, j] += inversa[k, j] * c;
+                    }
+                }
+
+            for (int i = 0; i < n; i++)
+            {
+                for (int j = 0; j < n; j++)
+                    inversa[i, j] /= a[i, i];
+                a[i, i] = 1;
+            }
         }
 
         static void Afisare(double[] v)
