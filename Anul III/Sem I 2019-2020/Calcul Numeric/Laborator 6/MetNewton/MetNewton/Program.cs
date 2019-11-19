@@ -17,7 +17,7 @@ namespace MetNewton
             inversa = new double[3, 3];
             f = new double[3, 1];
 
-            xn[0] = 0; xn[1] = 0; xn[2] = 0;
+            xn[0] = 5; xn[1] = 5; xn[2] = 5;
             epsilon = 1e-10;
             do
             {
@@ -83,25 +83,25 @@ namespace MetNewton
 
         static void MetEliminariiGauss()
         {
-            for (int i = 0; i < n; i++)
+            for (int i = 0; i < 3; i++)
                 inversa[i, i] = 1;
 
-            for (int k = 0; k < n; k++)
-                for (int i = 0; i < n; i++)
+            for (int k = 0; k < 3; k++)
+                for (int i = 0; i < 3; i++)
                 {
                     if (i == k)
                         continue;
                     double c = -a[i, k] / a[k, k];
-                    for (int j = 0; j < n; j++)
+                    for (int j = 0; j < 3; j++)
                     {
                         a[i, j] += a[k, j] * c;
                         inversa[i, j] += inversa[k, j] * c;
                     }
                 }
 
-            for (int i = 0; i < n; i++)
+            for (int i = 0; i < 3; i++)
             {
-                for (int j = 0; j < n; j++)
+                for (int j = 0; j < 3; j++)
                     inversa[i, j] /= a[i, i];
                 a[i, i] = 1;
             }
@@ -132,6 +132,17 @@ namespace MetNewton
             for (int i = 0; i < 3; i++)
                 c[i] = a[i] - b[i, 0];
             return c;
+        }
+        
+        static void AfisareMatrice(double[,] m)
+        {
+            for (int i = 0; i < m.GetLength(0); i++)
+            {
+                for (int j = 0; j < m.GetLength(0); j++)
+                    Console.Write(m[i, j] + " ");
+                Console.WriteLine();
+            }
+            Console.WriteLine();
         }
 
         static double f1(double x, double y, double z)
