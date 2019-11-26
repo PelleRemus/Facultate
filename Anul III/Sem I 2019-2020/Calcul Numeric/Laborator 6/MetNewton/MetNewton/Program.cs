@@ -17,7 +17,7 @@ namespace MetNewton
             inversa = new double[3, 3];
             f = new double[3, 1];
 
-            xn[0] = 5; xn[1] = 5; xn[2] = 5;
+            xn[0] = 10; xn[1] = 10; xn[2] = 10;
             epsilon = 1e-10;
             do
             {
@@ -155,7 +155,7 @@ namespace MetNewton
         }
         static double f3(double x, double y, double z)
         {
-            return z * z - x * y - 2 * z - 2;
+            return z * z - x * y - 2 * z - 8;
         }
 
         static double g1(double x, double y, double z)

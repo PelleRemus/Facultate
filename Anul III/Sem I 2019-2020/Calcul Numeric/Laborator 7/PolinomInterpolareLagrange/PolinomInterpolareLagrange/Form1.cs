@@ -1,11 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace PolinomInterpolareLagrange
@@ -22,8 +16,8 @@ namespace PolinomInterpolareLagrange
             N = new double[m + 1];
         }
 
-        int m, i;
-        double alpha, epsilon, h;
+        int m, i, width, height;
+        double alpha, epsilon, h, scale;
         double[] a, f, N;
         double[,] d;
 
@@ -33,10 +27,13 @@ namespace PolinomInterpolareLagrange
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            DrawSketch();
-
-            h = 0.0016;
             epsilon = 1e-4;
+            h = 0.0016;
+            scale = 1.61;
+            width = pictureBox1.Width - 20;
+            height = pictureBox1.Height - 20;
+
+            DrawSketch();
 
             for (int j = 0; j <= m; j++)
                 d[0, j] = f[j];
@@ -47,7 +44,7 @@ namespace PolinomInterpolareLagrange
 
             for (int k = 0; k <= 1000; k++)
             {
-                alpha = k * h;
+                alpha = a[0] + k * h;
                 double p = 1;
                 for (i = 1; i <= m; i++)
                 {
@@ -58,7 +55,9 @@ namespace PolinomInterpolareLagrange
                         break;
                 }
                 listBox1.Items.Add(alpha + ", " + N[i]);
-                grp.FillEllipse(new SolidBrush(Color.Black), center.X + (float)(alpha * (pictureBox1.Width - 20) / 1.6) - 1, center.Y - (float)(N[i] * (pictureBox1.Height - 20) / 1.6) - 1, 3, 3);
+                float x = center.X + (float)(alpha * width / scale) - 1;
+                float y = center.Y - (float)(N[i] * height / scale) - 1;
+                grp.FillEllipse(new SolidBrush(Color.Black), x, y, 3, 3);
             }
             pictureBox1.Image = bmp;
         }
@@ -68,12 +67,12 @@ namespace PolinomInterpolareLagrange
             bmp = new Bitmap(pictureBox1.Width, pictureBox1.Height);
             grp = Graphics.FromImage(bmp);
 
-            grp.DrawLine(Pens.Black, 0, pictureBox1.Height - 20, pictureBox1.Width, pictureBox1.Height - 20);
+            grp.DrawLine(Pens.Black, 0, height, pictureBox1.Width, height);
             grp.DrawLine(Pens.Black, 20, 0, 20, pictureBox1.Height);
-            center = new Point(20, pictureBox1.Height - 20);
+            center = new Point(20, height);
 
             for (int i = 0; i <= m; i++)
-                grp.FillEllipse(new SolidBrush(Color.Red), center.X + (float)(a[i] * (pictureBox1.Width - 20) / 1.61) - 5, center.Y - (float)(f[i] * (pictureBox1.Height - 20) / 1.61) - 5, 9, 9);
+                grp.FillEllipse(new SolidBrush(Color.Red), center.X + (float)(a[i] * width / scale) - 4, center.Y - (float)(f[i] * height / scale) - 4, 9, 9);
             pictureBox1.Image = bmp;
         }
     }
