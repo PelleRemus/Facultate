@@ -1,0 +1,14 @@
+{% extends 'home/base.html' %}
+
+{% block navbar %}
+    {% include 'home/navbar.html' with active_page='contact' %}
+{% endblock %}
+{% block title %}Contact{% endblock %}
+{% block header %}<h1>Contact</h1>{% endblock %}
+{% block content %}
+    <form action="{% url 'contact' %}" method="post">
+        {{ form }}
+        <input type="submit" value="Send" />
+        {% csrf_token %}
+    </form>
+{% endblock %}

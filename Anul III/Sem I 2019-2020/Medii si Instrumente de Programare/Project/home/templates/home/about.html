@@ -1,0 +1,14 @@
+{% extends 'home/base.html' %}
+
+{% block title %}About{% endblock %}
+{% block navbar %}
+    {% include 'home/navbar.html' with active_page='about' %}
+{% endblock %}
+{% block header %}<h1>About</h1>{% endblock %}
+{% block content %}
+    <form action="{% url 'about' %}" method="post">
+        {{ form.as_p }}
+        <input class="btn btn-primary" type="submit" value="Send" />
+        {% csrf_token %}
+    </form>
+{% endblock %}

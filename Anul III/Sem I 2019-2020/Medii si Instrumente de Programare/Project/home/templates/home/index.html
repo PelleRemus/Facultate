@@ -1,15 +1,5 @@
-{% load static %}
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Home</title>
-    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
-</head>
+{% extends 'home/base.html' %}
 
-<body>
-    {% for contact in foo %}
-        <h1>Hello, {{contact.name}}</h1>
-    {% endfor %}
-    <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
-</body>
-</html>
+{% block navbar %}
+    {% include 'home/navbar.html' with active_page='home' %}
+{% endblock %}
