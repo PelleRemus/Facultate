@@ -11,9 +11,12 @@ namespace SistemNEcuatii
     {
         public static float[,] A;
         public static float[] T;
-        public static int n;
+        public static int n, k = 30, copy = 0;
+        public static float error = 1;
+        public static int currGen = 0, maxGen = 10000;
 
         public static List<Solution> population = new List<Solution>();
+        public static List<Solution> parents = new List<Solution>();
         public static int length = 1000;
 
         public static Random rnd = new Random();
@@ -57,6 +60,45 @@ namespace SistemNEcuatii
             });
         }
 
+        public static void Selection()
+        {
+            SortPopulation();
+            float[] ponderi = new float[length];
+            int pMin = 10, ration = 50, temp = 0;
+
+            for(int i=length-1; i>=0; i--)
+            {
+                ponderi[i] = pMin + temp * ration;
+                temp++;
+            }
+
+
+        }
+
+        public static void UpdatePopulation()
+        {
+            /*parents.Clear();
+            for (int i = 0; i < k; i++)
+                parents.Add(population[i]);
+            */
+            population.Clear();
+
+            for (int i = 0; i < copy; i++)
+                population.Add(parents[i]);
+            for(int i=copy; i<length; i++)
+            {
+                int index1, index2;
+                index1 = rnd.Next(k);
+                do
+                {
+                    index2 = rnd.Next(k);
+                } while (index1 == index2);
+
+                Solution temp = Cross(parents[index1], parents[index2]);
+                population.Add(Mutation(temp));
+            }
+        }
+
         public static Solution Cross(Solution a, Solution b)
         {
             int aux = rnd.Next(1, n - 1);
@@ -65,6 +107,22 @@ namespace SistemNEcuatii
                 toReturn.X[i] = a.X[i];
             for (int i = aux; i < n; i++)
                 toReturn.X[i] = b.X[i];
+            return toReturn;
+        }
+
+        public static Solution Mutation(Solution a)
+        {
+            Solution toReturn = new Solution();
+            for (int i = 0; i < a.X.Length; i++)
+                toReturn.X[i] = a.X[i];
+
+            int l = rnd.Next(1, 4);
+            for (int i = 0; i < l; i++)
+            {
+                int index = rnd.Next(n);
+                toReturn.X[index] = GetRndNumber();
+            }
+
             return toReturn;
         }
 
@@ -85,8 +143,9 @@ namespace SistemNEcuatii
 
         public static void ViewPop()
         {
-            for (int i = 0; i < length; i++)
+            for (int i = 0; i < 10; i++)
                 population[i].View();
+            Console.WriteLine();
         }
     }
 }

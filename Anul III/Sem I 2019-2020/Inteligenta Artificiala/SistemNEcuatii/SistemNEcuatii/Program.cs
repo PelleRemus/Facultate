@@ -13,8 +13,16 @@ namespace SistemNEcuatii
             Engine.ReadFile(@"../../TextFile1.txt");
             Engine.View();
             Engine.InitPopulation();
-            Engine.SortPopulation();
-            Engine.ViewPop();
+            Engine.Selection();
+            Console.ReadKey();
+            do
+            {
+                Engine.UpdatePopulation();
+                Engine.SortPopulation();
+                Engine.ViewPop();
+                Engine.currGen++;
+            } while (Engine.currGen < Engine.maxGen && Engine.population[0].FAdec() > Engine.error);
+
             Console.ReadKey();
         }
     }
