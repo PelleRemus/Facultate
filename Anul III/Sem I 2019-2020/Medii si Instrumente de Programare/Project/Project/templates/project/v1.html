@@ -4,15 +4,21 @@
     {% include 'home/navbar.html' with active_page='contact' %}
 {% endblock %}
 {% block title %}Contact{% endblock %}
-{% block header %}<h1>Contact</h1>{% endblock %}
+{% block header %}<h1>Contact V1</h1>{% endblock %}
 {% block content %}
-    <div class="btn-group mb-3" role="group" aria-label="Basic example">
+    <div class="btn-group mb-3" role="group">
         <a href="{% url 'contact' %}" class="btn btn-secondary">Contact</a>
         <a href="{% url 'contact_v1' %}" class="btn btn-secondary">ContactV1</a>
         <a href="{% url 'contact_v2' %}" class="btn btn-secondary">ContactV2</a>
     </div>
 
-    <form action="{% url 'contact' %}" method="post">
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">{{message}}</div>
+        {% endfor %}
+    {% endif %}
+
+    <form action="{% url 'contact_v1' %}" method="post">
         {{ form.as_p }}
         <input class="btn btn-secondary" type="submit" value="Send" />
         {% csrf_token %}

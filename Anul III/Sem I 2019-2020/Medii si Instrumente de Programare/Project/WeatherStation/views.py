@@ -4,7 +4,11 @@ from .models import Entry
 
 # Create your views here.
 class EntryDetailView(DetailView):
-    queryset = Entry.objects.all
+    model = Entry
+
+    def get(self, request):
+        entry = Entry.objects.get(pk=1)
+        return
 
 def weatherStation(request):
     return render(request, 'WeatherStation/index.html', {'entries': Entry.objects.all()})

@@ -1,7 +1,7 @@
 from django import forms
+from .models import Contact
 
-class ContactForm(forms.Form):
-    name = forms.CharField(max_length=255)
-    subject = forms.CharField(max_length=255)
-    message = forms.CharField(widget=forms.Textarea(attrs={"rows":5}))
-    email = forms.EmailField()
+class ContactForm(forms.ModelForm):
+    class Meta:
+        model = Contact
+        exclude = []

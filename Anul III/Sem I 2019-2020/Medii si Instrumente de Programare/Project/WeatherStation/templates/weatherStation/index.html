@@ -14,7 +14,7 @@
 
     <div>
     {% for entry in entries %}
-        <a class="btn btn-light" href="" role="button"><h6>{{entry.id}}. {{entry.location.name}} in {{entry.dateTime}}</h6></a>
+        <a class="btn btn-light" href="" role="button"><h6 class="mb-1">{{entry.id}}. {{entry.location.name}} in {{entry.dateTime}}</h6></a>
     {% endfor %}
     </div>
 {% endblock %}

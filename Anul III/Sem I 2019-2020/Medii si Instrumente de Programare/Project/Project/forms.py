@@ -1,4 +1,7 @@
 from django import forms
+from .models import ContactTest
 
-class ContactForm(forms.Form):
-    name=forms.CharField()
+class ContactForm(forms.ModelForm):
+    class Meta:
+        model = ContactTest
+        exclude = []
