@@ -11,13 +11,14 @@ namespace SistemNEcuatii
     {
         public static float[,] A;
         public static float[] T;
-        public static int n, k = 30, copy = 0;
-        public static float error = 1;
-        public static int currGen = 0, maxGen = 10000;
+        public static int n, k = 15, copy = 3;
+        public static float error = 0.01f;
+        public static int currGen = 0, maxGen = 100000;
 
+        public static int[] ponderi;
         public static List<Solution> population = new List<Solution>();
         public static List<Solution> parents = new List<Solution>();
-        public static int length = 1000;
+        public static int length = 10000;
 
         public static Random rnd = new Random();
         public static float iStartX = -100, iEndX = 100;
@@ -50,6 +51,9 @@ namespace SistemNEcuatii
         {
             for (int i = 0; i < length; i++)
                 population.Add(new Solution());
+            SortPopulation();
+            for (int i = 0; i < k; i++)
+                parents.Add(population[i]);
         }
 
         public static void SortPopulation()
@@ -60,32 +64,58 @@ namespace SistemNEcuatii
             });
         }
 
+        public static void SortParents()
+        {
+            parents.Sort(delegate (Solution a, Solution b)
+            {
+                return a.FAdec().CompareTo(b.FAdec());
+            });
+        }
+
         public static void Selection()
         {
             SortPopulation();
-            float[] ponderi = new float[length];
-            int pMin = 10, ration = 50, temp = 0;
+            ponderi = new int[length];
+            int pMin = 10, ration = 10, temp = 0;
 
             for(int i=length-1; i>=0; i--)
             {
-                ponderi[i] = pMin + temp * ration;
+                ponderi[i] = pMin + temp * ration * ration;
                 temp++;
             }
+            
+            parents.Clear();
+            for (int i = 0; i < k; i++)
+            {
+                //parents.Add(population[AMC()]);
+                parents.Add(population[i]);
+            }
 
+        }
 
+        public static int AMC()
+        {
+            int suma = 0;
+            for (int i = 0; i < length; i++)
+                suma += ponderi[i];
+            int t = rnd.Next(suma), poz = length - 1;
+            do
+            {
+                t -= ponderi[poz];
+                poz--;
+            } while (t >= 0);
+            return poz + 1;
         }
 
         public static void UpdatePopulation()
         {
-            /*parents.Clear();
-            for (int i = 0; i < k; i++)
-                parents.Add(population[i]);
-            */
-            population.Clear();
+            Selection();
 
+            population.Clear();
             for (int i = 0; i < copy; i++)
                 population.Add(parents[i]);
-            for(int i=copy; i<length; i++)
+
+            for (int i=copy; i<length; i++)
             {
                 int index1, index2;
                 index1 = rnd.Next(k);

@@ -14,7 +14,6 @@ namespace SistemNEcuatii
             Engine.View();
             Engine.InitPopulation();
             Engine.Selection();
-            Console.ReadKey();
             do
             {
                 Engine.UpdatePopulation();

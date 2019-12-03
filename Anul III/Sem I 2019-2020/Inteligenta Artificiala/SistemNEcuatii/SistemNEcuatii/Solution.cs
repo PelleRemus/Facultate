@@ -35,7 +35,7 @@ namespace SistemNEcuatii
                 for (int i = 0; i < Engine.n; i++)
                     s += Engine.A[j, i] * X[i];
                 s -= Engine.T[j];
-                suma += Math.Abs(s);
+                suma += Math.Abs(s*s);
             }
             return suma;
         }
