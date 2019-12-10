@@ -30,7 +30,7 @@ class ContactV1View(TemplateView):
         return render(request, self.template_name, { 'form': myContactForm })
 
     def post(self, request):
-        myContactForm = ContactForm(request.POST)
+        myContactForm = ContactForm(request.POST, request.FILES)
         if (myContactForm.is_valid()):
             myContactForm.save()
             messages.success(request, 'Contact form saved!')

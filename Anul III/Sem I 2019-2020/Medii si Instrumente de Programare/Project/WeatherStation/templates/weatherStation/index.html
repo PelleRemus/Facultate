@@ -1,11 +1,12 @@
 {% extends 'home/base.html' %}
+{% load static %}
 
 {% block title %}Weather Station{% endblock %}
 {% block header %}<h1>My first Weather Station!</h1>{% endblock %}
 {% block content %}
     <div class="mb-3 d-flex justify-content-between align-items-center">
         <h4><span class="badge badge-pill badge-primary">Search by:</span></h4>
-        <select class="ml-2 mr-2 custom-select">
+        <select class="ml-2 mr-2 custom-select" id="select-1" data-url="{% url 'home_content' %}">
             <option value="location">Location</option>
             <option value="date">Date</option>
         </select>
@@ -17,4 +18,8 @@
         <a class="btn btn-light" href="" role="button"><h6 class="mb-1">{{entry.id}}. {{entry.location.name}} in {{entry.dateTime}}</h6></a>
     {% endfor %}
     </div>
+{% endblock %}
+{% block scripts %}
+    {{block.super}}
+    <script src="{% static 'js/home.js' %}"></script>
 {% endblock %}

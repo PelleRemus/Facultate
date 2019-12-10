@@ -6,3 +6,4 @@ class ContactTest(models.Model):
     subject = models.CharField(max_length = 255)
     message = models.TextField()
     email = models.EmailField()
+    attachment = models.FileField(upload_to='contact/', null = True)

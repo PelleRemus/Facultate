@@ -1,5 +1,7 @@
 from django.shortcuts import render
 from django.views.generic import DetailView
+from django.http import HttpResponse
+
 from .models import Entry
 
 # Create your views here.
@@ -12,3 +14,6 @@ class EntryDetailView(DetailView):
 
 def weatherStation(request):
     return render(request, 'WeatherStation/index.html', {'entries': Entry.objects.all()})
+
+def homeContent(request):
+    return HttpResponse('success')
