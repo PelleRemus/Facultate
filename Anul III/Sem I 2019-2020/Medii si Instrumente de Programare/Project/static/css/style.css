@@ -1,0 +1,36 @@
+.card {
+    background-size: cover
+}
+
+.Sunny {
+    color: white;
+    background-image: url('../../../../media/Sunny.jpg');
+    background-color: rgb(5, 130, 200);
+}
+
+.Cloudy {
+    color: white;
+    background-image: url('../../../../media/Cloudy.jpg');
+    background-color: rgb(100, 100, 100);
+}
+
+.PartiallyCloudy {
+    background-image: url('../../../../media/PartiallyCloudy.jpg');
+    background-color: rgb(25, 180, 220);
+}
+
+.Rainy {
+    background-image: url('../../../../media/Rainy.jpg');
+    background-color: rgb(180, 180, 180);
+}
+
+.Showering {
+    color: white;
+    background-image: url('../../../../media/Showering.jpg');
+    background-color: rgb(30, 30, 30);
+}
+
+.Snowy {
+    background-image: url('../../../../media/Snowy.jpg');
+    background-color: rgb(230, 230, 230);
+}

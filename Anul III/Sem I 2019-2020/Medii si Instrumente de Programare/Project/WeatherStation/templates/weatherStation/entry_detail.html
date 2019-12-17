@@ -1,0 +1,23 @@
+{% extends 'home/base.html' %}
+{% load static %}
+
+{% block title %}Entry Details{% endblock %}
+{% block stylesheets %}
+    {{block.super}}
+    <link href="{% static 'css/style.css' %}" rel="stylesheet">
+{% endblock %}
+{% block header %}<h1>Entry Details</h1>{% endblock %}
+{% block content %}
+  <div class="card {{object.weatherType.name}}">
+      <div class="card-body"><h5 class="card-title"><b>{{object.location.name}}</b></h5>
+          <p class="card-text mb-1"><b>In {{object.dateTime}}:</b></p>
+          <ul>
+            <li class="card-text"><b>The temperature was {{object.temperature}}°C;</b></li>
+            <li class="card-text"><b>The humidity in the air was {{object.humidity}}%.</b></li>
+          </ul>
+      </div>
+      <div class="card-footer">
+          <small><b>The weather was {{object.weatherType.name}}.</b></small>
+      </div>
+  </div>
+{% endblock %}

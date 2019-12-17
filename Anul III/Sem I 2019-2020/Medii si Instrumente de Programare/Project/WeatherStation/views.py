@@ -8,9 +8,11 @@ from .models import Entry
 class EntryDetailView(DetailView):
     model = Entry
 
-    def get(self, request):
-        entry = Entry.objects.get(pk=1)
-        return
+    # def get(self, request, *args, **kwargs):
+    #     print(args)
+    #     print(kwargs)
+    #     entry = Entry.objects.get(pk=kwargs['pk'])
+    #     return super(EntryDetailView, self).get(self, request, args, kwargs)
 
 def weatherStation(request):
     return render(request, 'WeatherStation/index.html', {'entries': Entry.objects.all()})
