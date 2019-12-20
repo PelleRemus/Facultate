@@ -2,18 +2,18 @@
 {% load static %}
 
 {% block title %}Weather Station{% endblock %}
-{% block header %}<h1>My first Weather Station!</h1>{% endblock %}
+{% block header %}<h1 class="cursor-default">My first Weather Station!</h1>{% endblock %}
 {% block content %}
     <div class="mb-3 d-flex justify-content-between align-items-center">
-        <h4><span class="badge badge-pill badge-primary">Search by:</span></h4>
-        <select class="ml-2 mr-2 custom-select" id="select-1" data-url="{% url 'home_content' %}">
+        <h4><span class="cursor-default badge badge-pill badge-primary">Search by:</span></h4>
+        <select id="selector" class="ml-2 mr-2 custom-select">
             <option value="location">Location</option>
-            <option value="date">Date</option>
+            <option value="date">Date (yyyy-mm-dd hh:mm:ss)</option>
         </select>
-        <input class="form-control" type="text" placeholder="Search" aria-label="Search">
+        <input id="search" class="form-control" type="text" placeholder="Search" aria-label="Search" data-url="{% url 'home_content' %}">
     </div>
 
-    <div>
+    <div id="list-container">
     {% for entry in entries %}
         <a class="btn btn-light" href="{% url 'entry' entry.id %}" role="button"><h6 class="mb-1">{{entry.id}}. {{entry.location.name}} in {{entry.dateTime}}</h6></a>
     {% endfor %}

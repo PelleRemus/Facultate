@@ -1,12 +1,15 @@
 $(document).ready(function() {
-    $('body').on('change', '#select-1', function(event) {
+    $('body').on('keyup', '#search', function(e) {
         var url = $(this).attr('data-url');
         $.ajax({
             url: url,
             method: 'GET',
-            data: {},
+            data: {
+                search: $(this).val(),
+                selected: $('#selector').val()
+            },
             success: function(data) {
-                console.log(data);
+                $('#list-container').html(data);
             },
             error: function(error) {
                 console.log(error);

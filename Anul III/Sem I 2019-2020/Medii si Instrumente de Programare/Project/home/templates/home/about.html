@@ -4,11 +4,11 @@
 {% block navbar %}
     {% include 'home/navbar.html' with active_page='about' %}
 {% endblock %}
-{% block header %}<h1>About</h1>{% endblock %}
+{% block header %}<h1 class="cursor-default">About</h1>{% endblock %}
 {% block content %}
     {% if messages %}
         {% for message in messages %}
-            <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">{{message}}</div>
+            <div class="cursor-default alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">{{message}}</div>
         {% endfor %}
     {% endif %}
 

@@ -2,13 +2,10 @@
 {% load static %}
 
 {% block title %}Entry Details{% endblock %}
-{% block stylesheets %}
-    {{block.super}}
-    <link href="{% static 'css/style.css' %}" rel="stylesheet">
-{% endblock %}
-{% block header %}<h1>Entry Details</h1>{% endblock %}
+{% block header %}<h1 class="cursor-default">Entry Details</h1>{% endblock %}
 {% block content %}
-  <div class="card {{object.weatherType.name}}">
+  <div class="cursor-default card {% if object.weatherType.name == 'Sunny' or object.weatherType.name == 'Cloudy' or object.weatherType.name == 'Showering' %}text-white{% endif %}"
+       style="background-image: url('../../../../media/{{object.weatherType.name}}.jpg');">
       <div class="card-body"><h5 class="card-title"><b>{{object.location.name}}</b></h5>
           <p class="card-text mb-1"><b>In {{object.dateTime}}:</b></p>
           <ul>
