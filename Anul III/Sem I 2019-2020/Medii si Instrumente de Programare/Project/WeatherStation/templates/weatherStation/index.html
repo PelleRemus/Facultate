@@ -2,15 +2,22 @@
 {% load static %}
 
 {% block title %}Weather Station{% endblock %}
+{% block stylesheets %}
+    {{block.super}}
+    <link href="{% static 'css/tempusdominus-bootstrap-4.min.css' %}" rel="stylesheet">
+{% endblock %}
 {% block header %}<h1 class="cursor-default">My first Weather Station!</h1>{% endblock %}
 {% block content %}
     <div class="mb-3 d-flex justify-content-between align-items-center">
-        <h4><span class="cursor-default badge badge-pill badge-primary">Search by:</span></h4>
-        <select id="selector" class="ml-2 mr-2 custom-select">
-            <option value="location">Location</option>
-            <option value="date">Date (yyyy-mm-dd hh:mm:ss)</option>
-        </select>
-        <input id="search" class="form-control" type="text" placeholder="Search" aria-label="Search" data-url="{% url 'home_content' %}">
+        <input id="search-location" type="text" class="form-control" placeholder="Search by location" aria-label="Search by location" data-url="{% url 'home_content' %}">
+        <div class="form-group col-sm-6 mb-0">
+            <div class="input-group date" id="datetimepicker4" data-target-input="nearest">
+                <input id="search-date" type="text" class="form-control datetimepicker-input" data-target="#datetimepicker4" placeholder="Search by date" aria-label="Search by date" data-url="{% url 'home_content' %}"/>
+                <div class="input-group-append" data-target="#datetimepicker4" data-toggle="datetimepicker">
+                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <div id="list-container">
@@ -21,5 +28,8 @@
 {% endblock %}
 {% block scripts %}
     {{block.super}}
+    <script src="{% static 'js/moment.js' %}"></script>
+    <script src="{% static 'js/tempusdominus-bootstrap-4.min.js' %}"></script>
     <script src="{% static 'js/home.js' %}"></script>
+    <script src="{% static 'js/change-date.js' %}"></script>
 {% endblock %}

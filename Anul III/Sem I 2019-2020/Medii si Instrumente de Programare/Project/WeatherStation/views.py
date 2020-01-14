@@ -18,7 +18,4 @@ def weatherStation(request):
     return render(request, 'WeatherStation/index.html', {'entries': Entry.objects.all()})
 
 def homeContent(request):
-    if request.GET.get('selected') == 'location':
-        return render(request, 'WeatherStation/list.html', {'entries': Entry.objects.filter(location__name__startswith=request.GET.get('search'))})
-    else:
-        return render(request, 'WeatherStation/list.html', {'entries': Entry.objects.filter(dateTime__startswith=request.GET.get('search'))})
+    return render(request, 'WeatherStation/list.html', {'entries': Entry.objects.filter(location__name__startswith=request.GET.get('searchLocation')).filter(dateTime__startswith=request.GET.get('searchDate'))})
