@@ -1,12 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Sudoku
@@ -19,7 +12,6 @@ namespace Sudoku
         }
 
         int[,] matrix;
-        int n;
 
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -40,8 +32,8 @@ namespace Sudoku
                 Solve();
             Afisare();
 
-            n = CountZeros();
-            bool[,] t = new bool[10, n];
+            SolveSudoku();
+            Afisare();
         }
 
         void Solve()
@@ -83,28 +75,60 @@ namespace Sudoku
             return -1;
         }
 
-        int CountZeros()
-        {
-            int nr = 0;
-            for(int i=0; i<9; i++)
-                for(int j=0; j<9; j++)
-                    if (matrix[i, j] == 0)
-                        nr++;
-            return nr;
+        bool IsSafe(int row, int col, int num)
+        { 
+            for (int i = 0; i < 9; i++)
+                if (matrix[row, i] == num)
+                    return false;
+            
+            for (int i = 0; i < 9; i++)
+                if (matrix[i, col] == num)
+                    return false;
+            
+            int boxRowStart = row - row % 3;
+            int boxColStart = col - col % 3;
+
+            for (int i = boxRowStart; i < boxRowStart + 3; i++)
+                for (int j = boxColStart; j < boxColStart + 3; j++)
+                    if (matrix[i, j] == num)
+                        return false;
+            return true;
         }
 
-        void ComplectMatrix()
+        bool SolveSudoku()
         {
-            int k = 0;
-            for(int i=0; i<9; i++)
-                for(int j=0; j<9; j++)
-                {
+            int row = -1;
+            int col = -1;
+            bool isEmpty = true;
+            for (int i = 0; i < 9; i++)
+            {
+                for (int j = 0; j < 9; j++)
                     if (matrix[i, j] == 0)
                     {
-                        
-                        k++;
+                        row = i;
+                        col = j;
+                        isEmpty = false;
+                        break;
                     }
+                if (!isEmpty)
+                    break;
+            }
+            
+            if (isEmpty)
+                return true;
+ 
+            for (int num = 1; num <= 9; num++)
+            {
+                if (IsSafe(row, col, num))
+                {
+                    matrix[row, col] = num;
+                    if (SolveSudoku())
+                        return true;
+                    else
+                        matrix[row, col] = 0;
                 }
+            }
+            return false;
         }
 
         void Afisare()
