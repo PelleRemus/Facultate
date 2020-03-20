@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System.Collections.Generic;
+using System.Drawing;
 
 namespace LicentaDemo
 {
@@ -9,9 +10,12 @@ namespace LicentaDemo
         public int size;
         public string name;
         public Player owner;
+        public List<Fleet> fleets;
 
         public Planet(string data)
         {
+            fleets = new List<Fleet>();
+
             string[] t = data.Split(new char[] { '[', ']' });
             string[] local = t[3].Split(',');
             location = new Point(int.Parse(local[0]), int.Parse(local[1]));

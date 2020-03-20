@@ -11,7 +11,9 @@ namespace LicentaDemo
 {
     public static class Engine
     {
+        public static Random rnd = new Random();
         public static List<Planet> planets = new List<Planet>();
+        public static List<Player> players = new List<Player>();
         public static int[,] ma;
         public static int n;
         public static float zoomX = 1, zoomY = 1;
@@ -31,7 +33,15 @@ namespace LicentaDemo
             display.Image = bmp;
         }
 
-        public static void Load(string fileName)
+        public static void InitDemo()
+        {
+            players.Add(new Player());
+            players.Add(new Player());
+            players.Add(new Player());
+            players.Add(new Player());
+        }
+
+        public static void Load(string fileName, string fileName2)
         {
             TextReader dataLoad = new StreamReader(fileName);
             string buffer;
@@ -51,6 +61,18 @@ namespace LicentaDemo
                 int value = int.Parse(local[2]);
                 ma[i, j] = value;
                 ma[j, i] = value;
+            }
+
+            dataLoad = new StreamReader(fileName2);
+            while((buffer = dataLoad.ReadLine()) != null)
+            {
+                Fleet temp = new Fleet(buffer);
+                while ((buffer = dataLoad.ReadLine()) != "end_fleet")
+                {
+                    if (buffer == null)
+                        break;
+                    temp.ships.Add(new Ship(buffer));
+                }
             }
         }
 
@@ -73,6 +95,47 @@ namespace LicentaDemo
         public static void RefreshMap()
         {
             display.Image = bmp;
+        }
+
+        public static void BattleWave(Fleet a, Fleet b)
+        {
+            foreach(Ship ship in a.ships)
+            {
+                int target = rnd.Next(b.ships.Count);
+                float attack = ship.beam - b.ships[target].shield;
+                if (attack < 0)
+                    attack = 0;
+
+                attack += ship.gun - b.ships[target].armor;
+                if (attack < 0)
+                    attack = 0;
+
+                attack += ship.missile - b.ships[target].pointDef;
+                if (attack < 0)
+                    attack = 0;
+
+                if (attack > 0)
+                    b.ships[target].damage += attack;
+
+                if (b.ships[target].damage >= b.ships[target].size)
+                    b.ships[target].destroyed = true;
+            }
+        }
+
+        public static void BattleCycle(Fleet a, Fleet b)
+        {
+            BattleWave(a, b);
+            BattleWave(b, a);
+
+            a.ships = a.ships.FindAll(delegate (Ship ship)
+            {
+                return !ship.destroyed;
+            });
+
+            b.ships = b.ships.FindAll(delegate (Ship ship)
+            {
+                return !ship.destroyed;
+            });
         }
     }
 }

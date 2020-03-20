@@ -20,7 +20,8 @@ namespace LicentaDemo
         private void Form1_Load(object sender, EventArgs e)
         {
             Engine.InitGraph(pictureBox1);
-            Engine.Load(@"..\..\Resources\Maps\demo_map.map");
+            Engine.InitDemo();
+            Engine.Load(@"..\..\Resources\Maps\demo_map.map", @"..\..\Resources\Fleets\Fleet.txt");
             Engine.DrawMap();
             Engine.RefreshMap();
         }
