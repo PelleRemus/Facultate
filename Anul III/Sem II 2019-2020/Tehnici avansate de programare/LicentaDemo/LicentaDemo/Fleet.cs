@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace LicentaDemo
 {
@@ -23,6 +19,7 @@ namespace LicentaDemo
             string[] local = data.Split(' ');
             name = local[0];
             owner = Engine.players[int.Parse(local[1])];
+            owner.fleets.Add(this);
             Engine.planets[int.Parse(local[2])].fleets.Add(this);
         }
     }

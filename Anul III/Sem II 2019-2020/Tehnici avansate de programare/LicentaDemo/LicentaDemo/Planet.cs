@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 
 namespace LicentaDemo
@@ -30,6 +31,18 @@ namespace LicentaDemo
         {
             Engine.grp.FillEllipse(new SolidBrush(fillColor), (location.X - size) * Engine.zoomX, (location.Y - size) * Engine.zoomY, (2 * size + 1) * Engine.zoomX, (2 * size + 1) * Engine.zoomY);
             Engine.grp.DrawString(name, new Font("Arial", 20, FontStyle.Bold), new SolidBrush(Color.Green), new Point((int)(location.X * Engine.zoomX), (int)(location.Y * Engine.zoomY)));
+
+            float d = 2 * size;
+            float alpha = 2 * (float)Math.PI / fleets.Count;
+            int fleetSize = 5;
+            Engine.grp.DrawEllipse(new Pen(fillColor), (location.X - d) * Engine.zoomX, (location.Y - d) * Engine.zoomY, 2 * d + 1, 2 * d + 1);
+
+            for (int i=0; i<fleets.Count; i++)
+            {
+                float x = location.X + d * (float)Math.Cos(i * alpha);
+                float y = location.Y + d * (float)Math.Sin(i * alpha);
+                Engine.grp.FillEllipse(new SolidBrush(fleets[i].owner.fillColor), (x - fleetSize) * Engine.zoomX, (y - fleetSize) * Engine.zoomY, (2 * fleetSize + 1) * Engine.zoomX, (2 * fleetSize + 1) * Engine.zoomY);
+            }
         }
     }
 }

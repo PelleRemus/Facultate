@@ -48,6 +48,12 @@
   <ItemGroup>
     <Compile Include="Engine.cs" />
     <Compile Include="Fleet.cs" />
+    <Compile Include="FleetDisplay.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="FleetDisplay.Designer.cs">
+      <DependentUpon>FleetDisplay.cs</DependentUpon>
+    </Compile>
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -59,6 +65,9 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Ship.cs" />
+    <EmbeddedResource Include="FleetDisplay.resx">
+      <DependentUpon>FleetDisplay.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>

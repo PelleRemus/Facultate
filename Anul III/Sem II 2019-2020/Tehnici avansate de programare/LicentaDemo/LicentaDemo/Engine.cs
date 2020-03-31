@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.IO;
 using System.Drawing;
 using System.Windows.Forms;
@@ -14,6 +11,9 @@ namespace LicentaDemo
         public static Random rnd = new Random();
         public static List<Planet> planets = new List<Planet>();
         public static List<Player> players = new List<Player>();
+        public static Player crtPlayer;
+        public static int crtPlayerIDX = 0;
+
         public static int[,] ma;
         public static int n;
         public static float zoomX = 1, zoomY = 1;
@@ -35,10 +35,19 @@ namespace LicentaDemo
 
         public static void InitDemo()
         {
-            players.Add(new Player());
-            players.Add(new Player());
-            players.Add(new Player());
-            players.Add(new Player());
+            players.Add(new Player("player1", Color.Red));
+            players.Add(new Player("player2", Color.Blue));
+            players.Add(new Player("player3", Color.Green));
+            players.Add(new Player("player4", Color.PeachPuff));
+            crtPlayer = players[crtPlayerIDX];
+        }
+
+        public static void SelectNextPlayer()
+        {
+            crtPlayerIDX++;
+            if (crtPlayerIDX == players.Count)
+                crtPlayerIDX = 0;
+            crtPlayer = players[crtPlayerIDX];
         }
 
         public static void Load(string fileName, string fileName2)
