@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.960
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConstructorDestructor", "ConstructorDestructor\ConstructorDestructor.csproj", "{0C21A2F2-53D1-413D-9C0F-A49E29F80014}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0C21A2F2-53D1-413D-9C0F-A49E29F80014}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0C21A2F2-53D1-413D-9C0F-A49E29F80014}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0C21A2F2-53D1-413D-9C0F-A49E29F80014}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0C21A2F2-53D1-413D-9C0F-A49E29F80014}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {47B50556-2515-4861-A92C-A22A4141D13F}
+	EndGlobalSection
+EndGlobal
