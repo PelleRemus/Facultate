@@ -7,6 +7,7 @@ namespace LicentaDemo
         public string name;
         public List<Ship> ships;
         public Player owner;
+        public Planet planet;
 
         public Fleet()
         {
@@ -20,7 +21,8 @@ namespace LicentaDemo
             name = local[0];
             owner = Engine.players[int.Parse(local[1])];
             owner.fleets.Add(this);
-            Engine.planets[int.Parse(local[2])].fleets.Add(this);
+            planet = Engine.planets[int.Parse(local[2])];
+            planet.fleets.Add(this);
         }
     }
 }

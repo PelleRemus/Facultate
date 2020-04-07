@@ -135,15 +135,46 @@ namespace LicentaDemo
         {
             BattleWave(a, b);
             BattleWave(b, a);
+        }
 
-            a.ships = a.ships.FindAll(delegate (Ship ship)
+        public static void Battle(List<Fleet> A, List<Fleet> B)
+        {
+            foreach(Fleet fleet in A)
+            {
+                int target = rnd.Next(B.Count);
+                BattleCycle(fleet, B[target]);
+            }
+            foreach (Fleet fleet in B)
+            {
+                int target = rnd.Next(A.Count);
+                BattleCycle(fleet, A[target]);
+            }
+
+            foreach (Fleet fleet in A)
+            {
+                RemoveDestroyedShips(fleet);
+            }
+            foreach (Fleet fleet in B)
+            {
+                RemoveDestroyedShips(fleet);
+            }
+
+            RemoveDestroyedFleets(A);
+            RemoveDestroyedFleets(B);
+        }
+
+        public static void RemoveDestroyedShips(Fleet A)
+        {
+            A.ships = A.ships.FindAll(delegate (Ship ship)
             {
                 return !ship.destroyed;
             });
-
-            b.ships = b.ships.FindAll(delegate (Ship ship)
+        }
+        public static void RemoveDestroyedFleets(List<Fleet> A)
+        {
+            A = A.FindAll(delegate (Fleet fleet)
             {
-                return !ship.destroyed;
+                return fleet.ships.Count != 0;
             });
         }
     }

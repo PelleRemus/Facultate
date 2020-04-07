@@ -31,9 +31,9 @@
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.button1 = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.panel2 = new System.Windows.Forms.Panel();
-            this.textBox1 = new System.Windows.Forms.TextBox();
             this.panel3 = new System.Windows.Forms.Panel();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.panel2 = new System.Windows.Forms.Panel();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
@@ -47,6 +47,7 @@
             this.pictureBox1.Size = new System.Drawing.Size(753, 481);
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
+            this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
             // 
             // button1
             // 
@@ -70,12 +71,14 @@
             this.panel1.Size = new System.Drawing.Size(232, 356);
             this.panel1.TabIndex = 2;
             // 
-            // panel2
+            // panel3
             // 
-            this.panel2.Location = new System.Drawing.Point(3, 12);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(64, 64);
-            this.panel2.TabIndex = 0;
+            this.panel3.AutoScroll = true;
+            this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel3.Location = new System.Drawing.Point(3, 82);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(226, 181);
+            this.panel3.TabIndex = 3;
             // 
             // textBox1
             // 
@@ -86,14 +89,12 @@
             this.textBox1.Size = new System.Drawing.Size(156, 26);
             this.textBox1.TabIndex = 0;
             // 
-            // panel3
+            // panel2
             // 
-            this.panel3.AutoScroll = true;
-            this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel3.Location = new System.Drawing.Point(3, 82);
-            this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(226, 183);
-            this.panel3.TabIndex = 3;
+            this.panel2.Location = new System.Drawing.Point(3, 12);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(64, 64);
+            this.panel2.TabIndex = 0;
             // 
             // Form1
             // 

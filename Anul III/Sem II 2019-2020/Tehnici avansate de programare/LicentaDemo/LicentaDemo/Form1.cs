@@ -39,7 +39,13 @@ namespace LicentaDemo
                 T[i] = new FleetDisplay(Engine.crtPlayer.fleets[i]);
                 T[i].Location = new Point(2, T[i].Height * i + 2);
                 T[i].Parent = panel3;
+                T[i].isFighting = false;
             }
+        }
+
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
