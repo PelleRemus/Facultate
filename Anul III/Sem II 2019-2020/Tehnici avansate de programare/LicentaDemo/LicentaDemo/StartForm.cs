@@ -15,6 +15,7 @@ namespace LicentaDemo
         public StartForm()
         {
             InitializeComponent();
+            Engine.ReadXmlHelp();
         }
 
         private void btn_game_Click(object sender, EventArgs e)

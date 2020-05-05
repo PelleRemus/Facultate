@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Drawing;
 using System.Windows.Forms;
+using System.Xml;
 
 namespace LicentaDemo
 {
@@ -13,6 +14,8 @@ namespace LicentaDemo
         public static List<Player> players = new List<Player>();
         public static Player crtPlayer;
         public static int crtPlayerIDX = 0;
+
+        public static List<HelpPage> helpPages = new List<HelpPage>();
 
         public static int[,] ma;
         public static int n;
@@ -81,6 +84,44 @@ namespace LicentaDemo
                     if (buffer == null)
                         break;
                     temp.ships.Add(new Ship(buffer));
+                }
+            }
+        }
+
+        public static void ReadXmlHelp()
+        {
+            XmlTextReader xmlReader = new XmlTextReader(@"..\..\Resources\XML\help.xml");
+            Paragraph buffer = new Paragraph();
+            HelpPage local = new HelpPage();
+            bool isTitle = false;
+            while (xmlReader.Read())
+            {
+                switch (xmlReader.NodeType)
+                {
+                    case XmlNodeType.Element:
+                        if (xmlReader.Name == "page")
+                            local = new HelpPage();
+                        if (xmlReader.Name == "title")
+                            isTitle = true;
+                        if (xmlReader.Name == "paragraph")
+                            buffer = new Paragraph();
+                        break;
+
+                    case XmlNodeType.Text:
+                        if (isTitle)
+                            local.title = xmlReader.Value;
+                        else
+                            buffer.Add(xmlReader.Value);
+                        break;
+
+                    case XmlNodeType.EndElement:
+                        if (xmlReader.Name == "page")
+                            helpPages.Add(local);
+                        if (xmlReader.Name == "title")
+                            isTitle = false;
+                        if (xmlReader.Name == "paragraph")
+                            local.AddParagraph(buffer);
+                        break;
                 }
             }
         }
