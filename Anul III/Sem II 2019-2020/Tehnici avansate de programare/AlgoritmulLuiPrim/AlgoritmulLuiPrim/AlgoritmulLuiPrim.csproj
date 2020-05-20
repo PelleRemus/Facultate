@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{DD000DC0-8385-4F46-8299-46AA4210BB3A}</ProjectGuid>
+    <ProjectGuid>{E782C9AD-DCBA-4EDD-B3E2-C9335F9BF29B}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>GrafHamiltonEuler</RootNamespace>
-    <AssemblyName>GrafHamiltonEuler</AssemblyName>
+    <RootNamespace>AlgoritmulLuiPrim</RootNamespace>
+    <AssemblyName>AlgoritmulLuiPrim</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -43,8 +43,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="EulerEngine.cs" />
-    <Compile Include="HamiltonEngine.cs" />
+    <Compile Include="Edge.cs" />
+    <Compile Include="Prim.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -52,8 +52,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="graph_euler.txt" />
-    <Content Include="graph_hamil.txt" />
+    <Content Include="TextFile1.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

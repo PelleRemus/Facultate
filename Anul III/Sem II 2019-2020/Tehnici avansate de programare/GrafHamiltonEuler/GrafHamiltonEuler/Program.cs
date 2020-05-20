@@ -10,6 +10,19 @@ namespace GrafHamiltonEuler
     {
         static void Main(string[] args)
         {
+            //multumim, Bondoc Ioana! Pentru acest cod minunabil
+
+            EulerEngine.InitMatrix();
+            EulerEngine.ShowMatrix();
+            Console.WriteLine("Eulerian Answer:");
+            EulerEngine.FindEulerian();
+
+            HamiltonEngine.InitMatrix();
+            HamiltonEngine.ShowMatrix();
+            Console.WriteLine("Hamiltonian Answer:");
+            HamiltonEngine.FindHamiltonian();
+
+            Console.ReadKey();
         }
     }
 }
