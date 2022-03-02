@@ -52,8 +52,8 @@ namespace Flip
         private static void FlipDP(ref int[,] m)
         {
             int n = m.GetLength(0);
-            for (int i=0; i<n;i++)
-                for (int j=i; j<n; j++)
+            for (int i = 0; i < n; i++)
+                for (int j = i; j < n; j++)
                 {
                     int aux = m[i, j];
                     m[i, j] = m[j, i];
@@ -65,12 +65,12 @@ namespace Flip
         private static void FlipDS(ref int[,] m)
         {
             int n = m.GetLength(0);
-            for (int i=0; i<n-i; i++)
-                for (int j=0; j<n-i; j++)
+            for (int i = 0; i < n; i++)
+                for (int j = 0; j < n - i - 1; j++)
                 {
                     int aux = m[i, j];
-                    m[i, j] = m[n - 1 - i, n - 1 - j];
-                    m[n - 1 - i, n - 1 - j] = aux;
+                    m[i, j] = m[n - j - 1, n - i - 1];
+                    m[n - j - 1, n - i - 1] = aux;
                 }
             Afisare(m);
         }
